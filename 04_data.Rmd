@@ -1,0 +1,153 @@
+---
+title: "Clustering Sensitivity"
+author: "Bruce Wang"
+date: "10/16/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this analysis is to determine which variables are most important in the clustering process.
+
+The first, and probabaly easiest way to do this is by relying on the stepwise kmeans algorithm contained in 
+the `kmeansstep` package. This does an iterative kmeans selecting the clusters that maximize either AIC or BIC.
+Let's use the Akaike INformation Criterion (AIC) to do this for now. Bruce will go and learn what this means in this
+context.
+
+AIC: Akaike’s information criterion (AIC) compares the quality of a set of statistical models to each other. 
+
+WikiPedia: "The Akaike information criterion (AIC) is an estimator of the relative quality of statistical models for a given set of data. Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models. Thus, AIC provides a means for model selection.
+
+AIC is founded on information theory. When a statistical model is used to represent the process that generated the data, the representation will almost never be exact; so some information will be lost by using the model to represent the process. AIC estimates the relative amount of information lost by a given model: the less information a model loses, the higher the quality of that model.
+
+In estimating the amount of information lost by a model, AIC deals with the trade-off between the goodness of fit of the model and the simplicity of the model. In other words, AIC deals with both the risk of overfitting and the risk of underfitting.
+
+The Akaike information criterion is named after the statistician Hirotugu Akaike, who formulated it. It now forms the basis of a paradigm for the foundations of statistics; as well, it is widely used for statistical inference."
+
+```{r}
+library(kmeansstep)
+
+stepwiseAIC_clusters <- complete_df %>%
+  select(cluster_variables) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters <- max(stepwiseAIC_clusters$kmeans$cluster)
+
+```
+
+What it turns out this does is keeps adding clusters until the improvement in fit stops increasing. According
+to this analysis, we actually need `r n_clusters`. I wonder if this is still true if we drop one of the variables.
+
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-TotalVolume) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_TotalVolume <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-SplitFailures) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_SplitFailures <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-ArrivalsOnGreen) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_ArrivalsOnGreen <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-ArrivalsOnRed) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_ArrivalsOnRed <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-PlatoonRatio) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_PlatoonRatio <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-ForceOffs) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_ForceOffs <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-Gapouts) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_Gapouts <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-VCRatio) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_VCRatio <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```
+
+```{r}
+stepwiseAIC_clusters_dropped_Var <- complete_df %>%
+  select(cluster_variables) %>%
+  select(-TotalRedLightViolations) %>%
+  mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                              "MacQueen"), trace = FALSE)
+
+n_clusters_TotalRedLightViolations <- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)
+```

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Bruce Wang" />
+
+<meta name="date" content="2019-10-10" />
+
+<title>03_data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">ATSPM DATA ANALYSIS</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="01_data.html">Aggregation Table</a>
+</li>
+<li>
+  <a href="02_data.html">Group Statistics and Plots</a>
+</li>
+<li>
+  <a href="03_data.html">K-Mean Cluster Analysis</a>
+</li>
+<li>
+  <a href="04_data.html">Cluster Variables</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">03_data</h1>
+<h4 class="author">Bruce Wang</h4>
+<h4 class="date">10/10/2019</h4>
+
+</div>
+
+
+<div id="k-means-cluster-analysis" class="section level2">
+<h2>K-means Cluster Analysis</h2>
+<pre class="r"><code># Setup Cluster variables
+cluster_variables &lt;- c(&quot;TotalVolume&quot;, &quot;SplitFailures&quot;, &quot;ArrivalsOnGreen&quot;, &quot;ArrivalsOnRed&quot;, &quot;PlatoonRatio&quot;, &quot;ForceOffs&quot;, &quot;GapOuts&quot;, &quot;VCRatio&quot;, &quot;TotalRedLightViolations&quot;)
+
+# Create Table without NA Volue
+complete_df &lt;- na.omit(df6)
+
+# Normal and Scaled clusters
+clusters &lt;- complete_df %&gt;%
+  select(cluster_variables) %&gt;%
+  kmeans(centers = 5)
+
+scaled_clusters &lt;- complete_df %&gt;%
+  select(cluster_variables) %&gt;%
+  mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
+  kmeans(centers = 5)
+
+clustered_df &lt;- complete_df %&gt;%
+  mutate(cluster = clusters$cluster,
+         scaled_cluster = scaled_clusters$cluster)</code></pre>
+<p>How different are the clusterings? Turns out they are very different!</p>
+<pre class="r"><code>clustered_df %&gt;%
+  group_by(cluster, scaled_cluster) %&gt;%
+  tally() %&gt;%
+  spread(scaled_cluster, n, fill = 0) %&gt;%
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">cluster</th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">4</th>
+<th align="right">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">17</td>
+<td align="right">0</td>
+<td align="right">888</td>
+<td align="right">132</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">250</td>
+<td align="right">980</td>
+<td align="right">0</td>
+<td align="right">94</td>
+<td align="right">263</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">36</td>
+<td align="right">189</td>
+<td align="right">0</td>
+<td align="right">2123</td>
+<td align="right">205</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">326</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">17</td>
+<td align="right">42</td>
+<td align="right">8</td>
+<td align="right">943</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Going forward, we will make only plots using the scaled clutering algorithm.</p>
+</div>
+<div id="plots" class="section level2 tabset">
+<h2>Plots</h2>
+<div id="total-volume-vs-force-offs" class="section level3">
+<h3>Total Volume vs Force-Offs</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = ForceOffs, color = factor(scaled_cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_hline(yintercept = 0.5, col = &quot;blue&quot;)+
+  geom_point(alpha = 0.3) </code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>I wonder if we can code up some kind of discrimination function based on the clusters. Like, draw the blue line so it contains 80% of points in cluster 1.</p>
+<pre class="r"><code>blue_level &lt;- clustered_df %&gt;%
+  filter(scaled_cluster == 1) %&gt;%
+  select(scaled_cluster, ForceOffs) %&gt;%
+  group_by(ForceOffs) %&gt;% tally() %&gt;%
+  mutate(p = n / sum(n),
+         cump = cumsum(p)) %&gt;%
+  filter(cump &lt; 0.85) %&gt;%
+  slice(nrow(.)) %&gt;% .$ForceOffs
+
+ggplot(clustered_df, aes(x = TotalVolume, y = ForceOffs, color = factor(scaled_cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_hline(yintercept = blue_level, col = &quot;blue&quot;)+
+  geom_point(alpha = 0.3) </code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-gapout" class="section level3">
+<h3>TotalVolume VS Gapout</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = GapOuts, color = factor(scaled_cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_hline(yintercept = 0.5, col = &quot;blue&quot;)+
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-arrivalongreen" class="section level3">
+<h3>TotalVolume VS ArrivalOnGreen</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = ArrivalsOnGreen, color = factor(scaled_cluster))) +
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-arrivalonred" class="section level3">
+<h3>TotalVolume VS ArrivalOnRed</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = ArrivalsOnRed, color = factor(scaled_cluster))) +
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-splitfailures" class="section level3">
+<h3>TotalVolume VS SplitFailures</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = SplitFailures, color = factor(scaled_cluster))) +
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/vol-vs-red-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-totalredlightviolations" class="section level3">
+<h3>TotalVolume VS TotalRedLightViolations</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = TotalVolume, y = TotalRedLightViolations, color = factor(scaled_cluster))) +
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/vol-vs-redlight-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-vcratio" class="section level3">
+<h3>PlatoonRatio VS VCRatio</h3>
+<pre class="r"><code>ggplot(clustered_df, aes(x = PlatoonRatio, y = VCRatio, color = factor(scaled_cluster))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

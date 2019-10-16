@@ -1,0 +1,118 @@
+---
+title: "03_data"
+author: "Bruce Wang"
+date: "10/10/2019"
+output: html_document
+---
+
+# K-means Cluster Analysis
+```{r}
+## K-Means Cluster Analysis ========
+
+cluster_variables <- c("TotalVolume", "SplitFailures", "ArrivalsOnGreen", "ArrivalsOnRed", "PlatoonRatio", "ForceOffs", "GapOuts", "VCRatio", "TotalRedLightViolations")
+
+df8 <- na.omit(df6) %>%
+  select(cluster_variables)
+
+df8_Scale <- na.omit(df6) %>%
+  select(cluster_variables) %>%
+  mutate_all(scale)
+
+
+clusters <- kmeans(df8 [, cluster_variables], centers = 5)
+clusters_Scale <- kmeans(df8_Scale [, cluster_variables], centers = 5)
+
+df8$cluster <- clusters$cluster
+df8$cluster_scaled <- clusters_Scale$cluster
+
+#Forceoffs
+
+ggplot(df8, aes(x = TotalVolume, y = ForceOffs, color = factor(cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_hline(yintercept = 0.5, col = "blue")+
+  geom_point(alpha = 0.3) 
+
+ggplot(df8_Scale, aes(x = TotalVolume, y = ForceOffs, color = factor(cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_hline(yintercept = 0.5, col = "blue")+
+  geom_point(alpha = 0.3) 
+
+# Gapout
+
+ggplot(df8, aes(x = TotalVolume, y = GapOuts, color = factor(cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_hline(yintercept = 0.5, col = "blue")+
+  geom_point(alpha = 0.3)
+
+ggplot(df8_Scale, aes(x = TotalVolume, y = GapOuts, color = factor(cluster))) +
+  geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_hline(yintercept = 0.5, col = "blue")+
+  geom_point(alpha = 0.3)
+
+# ArrivalOnGreen
+
+ggplot(df8_Scale, aes(x = TotalVolume, y = ArrivalsOnGreen, color = factor(cluster))) +
+  geom_point(alpha = 0.3)
+
+# ArrivalOnRed
+
+ggplot(df8_Scale, aes(x = TotalVolume, y = ArrivalsOnRed, color = factor(cluster))) +
+  geom_point(alpha = 0.3)
+
+# SplitFailures
+ggplot(df8_Scale, aes(x = TotalVolume, y = SplitFailures, color = factor(cluster))) +
+  geom_point(alpha = 0.3)
+
+# TotalRedLightViolations
+
+ggplot(df8, aes(x = TotalVolume, y = TotalRedLightViolations, color = factor(cluster))) +
+  geom_point(alpha = 0.3)
+
+ggplot(df8_Scale, aes(x = TotalVolume, y = TotalRedLightViolations, color = factor(cluster))) +
+  geom_point(alpha = 0.3)
+
+# VCRatio
+
+ggplot(df8, aes(x = PlatoonRatio, y = VCRatio, color = factor(cluster))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_point(alpha = 0.3)
+
+ggplot(df8_Scale, aes(x = PlatoonRatio, y = VCRatio, color = factor(cluster))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
+  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
+  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
+  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
+  geom_point(alpha = 0.3) 
+   #  facet_grid(is_protected~splitfails)
+  # facet_wrap(~SplitFailures) +
+  # scale_x_continuous(limits = c(0, 200))
+
+## variables affect clusters
+cluster_variables <- c("SplitFailures", "ArrivalsOnGreen", "ArrivalsOnRed", "PlatoonRatio", "ForceOffs", "GapOuts", "VCRatio", "TotalRedLightViolations")
+
+df6 <- na.omit(df6) %>%
+  select(cluster_variables)
+
+# clusters <- kmeans(df6 %>% [, cluster_variables], centers = 5)
+# 
+# df6$cluster <- clusters$cluster
+# 
+# ggplot(df6, aes(x = PlatoonRatio, y = VCRatio, color = factor(cluster))) +
+#   geom_point(alpha = 0.3)
+
+```

@@ -1,11 +1,11 @@
-name: "my-website"
+name: "ATSPM Data Analysis"
 output_dir: "docs"
 navbar:
-  title: "My Website"
+  title: "ATSPM DATA ANALYSIS"
   left:
     - text: "Home"
       href: index.html
     - text: "About"
       href: about.html
-    - text: "data"
+    - text: "Data"
       href: 01_data.html

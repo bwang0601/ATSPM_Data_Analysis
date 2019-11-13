@@ -10,9 +10,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Bruce Wang" />
 
+<meta name="date" content="2019-10-10" />
 
-<title>Data Setup</title>
+<title>01_data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -279,7 +281,13 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="01_data.html">Data</a>
+  <a href="01_data.html">Aggregation Table</a>
+</li>
+<li>
+  <a href="02_data.html">Group Statistics and Plots</a>
+</li>
+<li>
+  <a href="03_data.html">K-Mean Cluster Analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -293,21 +301,23 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Setup</h1>
+<h1 class="title toc-ignore">01_data</h1>
+<h4 class="author">Bruce Wang</h4>
+<h4 class="date">10/10/2019</h4>
 
 </div>
 
 
-<div id="loading-libraries" class="section level1">
-<h1>Loading Libraries</h1>
+<div id="loading-libraries" class="section level2">
+<h2>Loading Libraries</h2>
 <pre class="r"><code>## Load Libraries
 library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages -------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## -- Attaching packages ------------------------------------------------------------------------------------ tidyverse 1.2.1 --</code></pre>
 <pre><code>## v ggplot2 3.2.1     v purrr   0.3.2
 ## v tibble  2.1.3     v dplyr   0.8.3
 ## v tidyr   0.8.3     v stringr 1.4.0
 ## v readr   1.3.1     v forcats 0.4.0</code></pre>
-<pre><code>## -- Conflicts ----------------------------------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts --------------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(readxl)
@@ -319,11 +329,11 @@ library(lubridate)</code></pre>
 ##     date</code></pre>
 <pre class="r"><code>library(ggplot2)</code></pre>
 </div>
-<div id="creating-an-analysis-dataset" class="section level1">
-<h1>Creating an Analysis Dataset</h1>
+<div id="creating-an-analysis-dataset" class="section level2">
+<h2>Creating an Analysis Dataset</h2>
 <p>This scripte is to analyze the group of signals on FtUnion corridor There are total ten signals included on the FtUnion corrdior</p>
 <pre class="r"><code># Safety aggregation table: Red Light Actuation
-RLA &lt;-read_xls(&quot;data/FtUnion/FtUnion_RedActuation.xls&quot;) %&gt;%
+RA &lt;-read_xls(&quot;data/FtUnion/FtUnion_RedActuation.xls&quot;) %&gt;%
   mutate(
     BinStartTime = as_datetime(BinStartTime)
   )
@@ -365,8 +375,8 @@ LC &lt;-read_xls(&quot;data/FtUnion/FtUnion_LaneConfig.xls&quot;) %&gt;%
     n = sum(n)
   )</code></pre>
 </div>
-<div id="joining-aggregation-tables" class="section level1">
-<h1>Joining Aggregation Tables</h1>
+<div id="joining-aggregation-tables" class="section level2">
+<h2>Joining Aggregation Tables</h2>
 <pre class="r"><code># Create a Base Table: BinStartTime, SignalID, and ApproachID
 BaseTable &lt;-read_xls(&quot;data/FtUnion/FtUnion_BaseTable.xls&quot;) %&gt;%
   mutate(
@@ -390,7 +400,7 @@ df3 &lt;- left_join(
   by = c(&quot;BinStartTime&quot;, &quot;SignalID&quot;, &quot;ApproachId&quot; = &quot;ApproachID&quot;))
 
 df4 &lt;- left_join(
-  df3, RLA,
+  df3, RA,
   by = c(&quot;BinStartTime&quot;, &quot;ApproachId&quot;)
 )
 
@@ -399,12 +409,12 @@ df5 &lt;- left_join(
   by = c(&quot;BinStartTime&quot;, &quot;ApproachId&quot;)
 )
 
-df7 &lt;- left_join(
+df6 &lt;- left_join(
   df5, LC,
   by = c(&quot;ApproachId&quot; = &quot;ApproachID&quot;)
 )
 
-df6 &lt;- df7 %&gt;% select(-year) %&gt;% select(-Id) %&gt;% select(-Volume) %&gt;% select(-IsProtectedPhase) %&gt;%
+df7 &lt;- df6 %&gt;% select(-year) %&gt;% select(-Id) %&gt;% select(-Volume) %&gt;% select(-IsProtectedPhase) %&gt;%
   mutate(
     TotalVolume = as.numeric(TotalVolume),
     PercentGreen = as.numeric(PercentGreen),
@@ -418,7 +428,26 @@ df6 &lt;- df7 %&gt;% select(-year) %&gt;% select(-Id) %&gt;% select(-Volume) %&g
     sat_in_period = saturation * (TotalTime) / (60 * 60), # vph * s in period / s in hour = vp period
     percent_green = TotalGreenTime / TotalTime, #unitless
     VCRatio = TotalVolume / (sat_in_period * percent_green) # vpp / (max vpp * percent green)
-  )</code></pre>
+  )  %&gt;%
+  mutate(
+    # Y_M_D = as.Date(df7$BinStartTime),
+    # H_M_S = format(as.POSIXct(df7$BinStartTime) ,format = &quot;%H:%M:%S&quot;),
+    # AMPeak = subset(df7, H_M_S &gt; &quot;7:00:00 &quot; &amp; H_M_S &lt; &quot;8:45:00&quot;)
+    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
+    # AMPeak = hour(BinStartTime) %in% c(&quot;07:00:00&quot;, &quot;07:15:00&quot;)
+  )  %&gt;%
+  mutate(
+    # ForceOffsPerCycle = ForceOffs / TotalCycles,
+    # GapoutsPerCycle = GapOuts / TotalCycles,
+    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
+    PercentAOR = ArrivalsOnRed / TotalVolume,
+    SplitFailuresPerCycle = SplitFailures / TotalCycles,
+    TotalRedLightViolationsPerCycle = TotalRedLightViolations / TotalCycles
+  )
+
+dfAMPeck &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;TRUE&quot;)
+
+dfMidDay &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;FALSE&quot;)</code></pre>
 </div>
 
 

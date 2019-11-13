@@ -7,5 +7,9 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Data"
+    - text: "Aggregation Table"
       href: 01_data.html
+    - text: "Group Statistics and Plots"
+      href: 02_data.html
+    - text: "K-Mean Cluster Analysis"
+      href: 03_data.html

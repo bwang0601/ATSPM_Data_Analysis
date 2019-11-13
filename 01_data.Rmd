@@ -5,8 +5,8 @@ date: "10/10/2019"
 output: html_document
 ---
 
-# Loading Libraries
-```{r}
+## Loading Libraries
+```{r Loading Libraries}
 ## Load Libraries
 library(tidyverse)
 library(readxl)
@@ -14,10 +14,10 @@ library(lubridate)
 library(ggplot2)
 ```
 
-# Creating an Analysis Dataset
+## Creating an Analysis Dataset
 This scripte is to analyze the group of signals on FtUnion corridor 
 There are total ten signals included on the FtUnion corrdior
-```{r}
+```{r measures Dataset}
 # Safety aggregation table: Red Light Actuation
 RA <-read_xls("data/FtUnion/FtUnion_RedActuation.xls") %>%
   mutate(
@@ -63,8 +63,8 @@ LC <-read_xls("data/FtUnion/FtUnion_LaneConfig.xls") %>%
   
 ```
 
-# Joining Aggregation Tables
-```{r}
+## Joining Aggregation Tables
+```{r combine dataset}
 # Create a Base Table: BinStartTime, SignalID, and ApproachID
 BaseTable <-read_xls("data/FtUnion/FtUnion_BaseTable.xls") %>%
   mutate(
@@ -97,12 +97,12 @@ df5 <- left_join(
   by = c("BinStartTime", "ApproachId")
 )
 
-df7 <- left_join(
+df6 <- left_join(
   df5, LC,
   by = c("ApproachId" = "ApproachID")
 )
 
-df6 <- df7 %>% select(-year) %>% select(-Id) %>% select(-Volume) %>% select(-IsProtectedPhase) %>%
+df7 <- df6 %>% select(-year) %>% select(-Id) %>% select(-Volume) %>% select(-IsProtectedPhase) %>%
   mutate(
     TotalVolume = as.numeric(TotalVolume),
     PercentGreen = as.numeric(PercentGreen),
@@ -116,6 +116,24 @@ df6 <- df7 %>% select(-year) %>% select(-Id) %>% select(-Volume) %>% select(-IsP
     sat_in_period = saturation * (TotalTime) / (60 * 60), # vph * s in period / s in hour = vp period
     percent_green = TotalGreenTime / TotalTime, #unitless
     VCRatio = TotalVolume / (sat_in_period * percent_green) # vpp / (max vpp * percent green)
+  )  %>%
+  mutate(
+    # Y_M_D = as.Date(df7$BinStartTime),
+    # H_M_S = format(as.POSIXct(df7$BinStartTime) ,format = "%H:%M:%S"),
+    # AMPeak = subset(df7, H_M_S > "7:00:00 " & H_M_S < "8:45:00")
+    AMPeak = hour(BinStartTime) >= 7 & hour(BinStartTime) <= 8
+    # AMPeak = hour(BinStartTime) %in% c("07:00:00", "07:15:00")
+  )  %>%
+  mutate(
+    # ForceOffsPerCycle = ForceOffs / TotalCycles,
+    # GapoutsPerCycle = GapOuts / TotalCycles,
+    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
+    PercentAOR = ArrivalsOnRed / TotalVolume,
+    SplitFailuresPerCycle = SplitFailures / TotalCycles,
+    TotalRedLightViolationsPerCycle = TotalRedLightViolations / TotalCycles
   )
 
+dfAMPeck <- df7 %>% filter(df7$AMPeak == "TRUE")
+
+dfMidDay <- df7 %>% filter(df7$AMPeak == "FALSE")
 ```

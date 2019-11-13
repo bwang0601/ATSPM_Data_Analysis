@@ -289,9 +289,6 @@ $(document).ready(function () {
 <li>
   <a href="03_data.html">K-Mean Cluster Analysis</a>
 </li>
-<li>
-  <a href="04_data.html">Cluster Variables</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -333,67 +330,83 @@ n_clusters &lt;- max(stepwiseAIC_clusters$kmeans$cluster)</code></pre>
   select(cluster_variables) %&gt;%
   select(-TotalVolume) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)</code></pre>
-<pre><code>## Warning: Quick-TRANSfer stage steps exceeded maximum (= 326050)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
-## Warning: Quick-TRANSfer stage steps exceeded maximum (= 326050)</code></pre>
-<pre class="r"><code>n_clusters_TotalVolume &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
+n_clusters_TotalVolume &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-SplitFailures) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
 n_clusters_SplitFailures &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-ArrivalsOnGreen) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)</code></pre>
-<pre><code>## Warning: Quick-TRANSfer stage steps exceeded maximum (= 326050)</code></pre>
-<pre class="r"><code>n_clusters_ArrivalsOnGreen &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
+
+n_clusters_ArrivalsOnGreen &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-ArrivalsOnRed) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
 n_clusters_ArrivalsOnRed &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-PlatoonRatio) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
 n_clusters_PlatoonRatio &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-ForceOffs) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
 n_clusters_ForceOffs &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-Gapouts) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
 
 n_clusters_Gapouts &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-VCRatio) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)</code></pre>
-<pre><code>## Warning: Quick-TRANSfer stage steps exceeded maximum (= 326050)</code></pre>
-<pre class="r"><code>n_clusters_VCRatio &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
+
+n_clusters_VCRatio &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 <pre class="r"><code>stepwiseAIC_clusters_dropped_Var &lt;- complete_df %&gt;%
   select(cluster_variables) %&gt;%
   select(-TotalRedLightViolations) %&gt;%
   mutate_all(scale) %&gt;% # want to scale the data to make it normalized for kmeans
-  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 10)</code></pre>
-<pre><code>## Warning: Quick-TRANSfer stage steps exceeded maximum (= 326050)</code></pre>
-<pre class="r"><code>n_clusters_TotalRedLightViolations &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
+  kmeansStepAIC(centers = 5, iter.max = 30, nstart = 1,
+                algorithm = c(&quot;Hartigan-Wong&quot;, &quot;Lloyd&quot;, &quot;Forgy&quot;,
+                              &quot;MacQueen&quot;), trace = FALSE)
+
+n_clusters_TotalRedLightViolations &lt;- max(stepwiseAIC_clusters_dropped_Var$kmeans$cluster)</code></pre>
 
 
 

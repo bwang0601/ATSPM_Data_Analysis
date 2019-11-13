@@ -3,200 +3,310 @@ title: "02_data"
 author: "Bruce Wang"
 date: "10/10/2019"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
-# Group Statistics
-```{r}
-df6 %>% group_by(BinStartTime) %>% tally()
-df6 %>% group_by(SignalID) %>% tally()
-df6 %>% group_by(ApproachId) %>% tally()
-df6 %>% group_by(ArrivalsOnGreen) %>% tally()
-df6 %>% group_by(ArrivalsOnRed) %>% tally()
-df6 %>% group_by(ArrivalsOnYellow) %>% tally()
-df6 %>% group_by(TotalVolume) %>% tally()
-df6 %>% group_by(PlatoonRatio) %>% tally()
-df6 %>% group_by(PercentGreen) %>% tally()
-df6 %>% group_by(TotalTime) %>% tally()
-df6 %>% group_by(TotalGreenTime) %>% tally()
-df6 %>% group_by(TotalYellowTime) %>% tally()
-df6 %>% group_by(TotalRedTime) %>% tally()
-df6 %>% group_by(SplitFailures) %>% tally()
-df6 %>% group_by(PhaseNumber) %>% tally()
-df6 %>% group_by(GapOuts) %>% tally()
-df6 %>% group_by(ForceOffs) %>% tally()
-df6 %>% group_by(MaxOuts) %>% tally()
-df6 %>% group_by(SevereRedLightViolations) %>% tally()
-df6 %>% group_by(TotalRedLightViolations) %>% tally()
-df6 %>% group_by(TotalCycles) %>% tally()
-df6 %>% group_by(VCRatio) %>% tally()
+## Group Statistics
+```{r group Statistics}
+df7 %>% group_by(BinStartTime) %>% tally()
+df7 %>% group_by(SignalID) %>% tally()
+df7 %>% group_by(ApproachId) %>% tally()
+df7 %>% group_by(ArrivalsOnGreen) %>% tally()
+df7 %>% group_by(ArrivalsOnRed) %>% tally()
+df7 %>% group_by(ArrivalsOnYellow) %>% tally()
+df7 %>% group_by(TotalVolume) %>% tally()
+df7 %>% group_by(PlatoonRatio) %>% tally()
+df7 %>% group_by(PercentGreen) %>% tally()
+df7 %>% group_by(TotalTime) %>% tally()
+df7 %>% group_by(TotalGreenTime) %>% tally()
+df7 %>% group_by(TotalYellowTime) %>% tally()
+df7 %>% group_by(TotalRedTime) %>% tally()
+df7 %>% group_by(SplitFailures) %>% tally()
+df7 %>% group_by(PhaseNumber) %>% tally()
+df7 %>% group_by(GapOuts) %>% tally()
+df7 %>% group_by(ForceOffs) %>% tally()
+df7 %>% group_by(MaxOuts) %>% tally()
+df7 %>% group_by(SevereRedLightViolations) %>% tally()
+df7 %>% group_by(TotalRedLightViolations) %>% tally()
+df7 %>% group_by(TotalCycles) %>% tally()
+df7 %>% group_by(VCRatio) %>% tally()
 
-ForceOffs <- table(df6$ForceOffs)
-SplitFailures <- table(df6$SplitFailures)
-ForceOffs <- table(df6$ForceOffs)
-ForceOffs <- table(df6$ForceOffs)
-ForceOffs <- table(df6$ForceOffs)
-summary(ForceOffs)
-summary(SplitFailures)
-fivenum(ForceOffs)
+TotalVolume <- table(df7$TotalVolume)
+SplitFailures <- table(df7$SplitFailures)
+ArrivalsOnGreen <- table(df7$ArrivalsOnGreen)
+ArrivalsOnRed <- table(df7$ArrivalsOnRed)
+PlatoonRatio <- table(df7$PlatoonRatio)
+ForceOffs <- table(df7$ForceOffs)
+Gapouts <- table(df7$GapOuts)
+VCRatio <- table(df7$VCRatio)
+TotalRedLightViolations <- table(df7$TotalRedLightViolations)
+
 
 ```
 
-# Plots
+## Forceoffs Plots {.tabset}
+### Forceoffs Histogram 
+```{r ForceOffs Histogram Plot }
+ggplot(df7, aes(x = ForceOffs)) + geom_histogram(color = "black", fill = "Blue")
+```
+
+### Forceoffs by SignalID
+```{r ForceOffs by SignalID}
+ggplot(df7, aes(x = ForceOffs, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
+```
+
+### Forceoffs per Cycle
+```{r Avg Forceoffs per Cycle}
+ggplot(df7, aes(x = ForceOffs / TotalCycles)) + geom_bar(color = "black", fill = "Blue")
+```
+
+### Forceoffs VS PlatoonRatio
 ```{r}
-ggplot(df6, aes(x = ForceOffs)) + geom_histogram(color = "black", fill = "Blue") 
-ggplot(df6, aes(x = ForceOffs, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
-# ggplot(df5, aes(x = ForceOffs)) + geom_histogram(aes(y = ..density..), color = "black", fill = "Blue") + geom_density(alpha = 0.2, fill = "#F60404")
-
-ggplot(df6, aes(x = GapOuts)) + geom_histogram(color = "black", fill = "Blue") + scale_x_continuous(limits = c(-1, 20))
-ggplot(df6, aes(x = GapOuts)) + geom_histogram(color = "black", fill = "Blue") + scale_x_continuous(limits = c(0, 20)) + scale_y_continuous(limits = c(0, 500))
-
-ggplot(df6, aes(x = ArrivalsOnGreen)) + geom_histogram(color = "black", fill = "Green") 
-ggplot(df6, aes(x = ArrivalsOnGreen, fill = SignalID)) + geom_bar(color = "Green", fill = "Green") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 50))
-
-ggplot(df6, aes(x = ArrivalsOnRed)) + geom_histogram(color = "black", fill = "Red")
-ggplot(df6, aes(x = ArrivalsOnRed, fill = SignalID)) + geom_bar(color = "Red", fill = "Red") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 100)) + scale_y_continuous(limits = c(0, 400))
-
-ggplot(df6, aes(x = PlatoonRatio)) + geom_histogram(color = "black", fill = "Blue")
-ggplot(df6, aes(x = PlatoonRatio, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
-
-ggplot(df6, aes(x = SplitFailures)) + geom_histogram(color = "black", fill = "Blue")
-ggplot(df6, aes(x = SplitFailures, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
-
-ggplot(df6, aes(x = TotalRedLightViolations)) + geom_histogram(color = "black", fill = "red")
-ggplot(df6, aes(x = TotalRedLightViolations, fill = SignalID)) + geom_bar(color = "black", fill = "Red") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 40)) + scale_y_continuous(limits = c(0, 220))
-
-ggplot(df6, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.3) +
-  #  facet_grid(is_protected~splitfails)
-  facet_wrap(~SplitFailures) +
-  scale_x_continuous(limits = c(0, 200))
-
-# ggplot(df5, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = ForceOffs)) +
-#   geom_point(alpha = 0.3) +
-#   #  facet_grid(is_protected~splitfails)
-#   facet_wrap(~SplitFailures) +
-#   scale_x_continuous(limits = c(0, 200))
-
-ggplot(df6, aes(x = ArrivalsOnRed, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.3) +
-  #  facet_grid(is_protected~splitfails)
-  facet_wrap(~SplitFailures) +
-  scale_x_continuous(limits = c(0, 200))
-
-# ggplot(df5, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = GapOuts)) +
-#   geom_point(alpha = 0.3) +
-#   #  facet_grid(is_protected~splitfails)
-#   facet_wrap(~SplitFailures) +
-#   scale_x_continuous(limits = c(0, 200))
-
-ggplot(df6, aes(x = PercentGreen, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures) 
-
-ggplot(df6, aes(x = GapOuts, y = PlatoonRatio, color = SplitFailures)) +
+ggplot(df7, aes(x = ForceOffs, y = PlatoonRatio, color = SplitFailures)) +
   geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)
+```
 
-ggplot(df6, aes(x = ForceOffs, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)
-
-ggplot(df6, aes(x = SplitFailures, y = PlatoonRatio)) +
-  geom_point() 
-# facet_wrap(~SplitFailures)
-# ggplot(df4, aes(x = SplitFailures, fill = ForceOffs)) +
-#   geom_bar() +
-#   facet_wrap(~ForceOffs)
-# 
-# ggplot(df4, aes(x = GapOuts, fill = SplitFailures)) +
-#   geom_bar() +
-#   facet_wrap(~SplitFailures)
-# 
-# ggplot(df4, aes(x = SplitFailures, fill = GapOuts)) +
-#   geom_bar() +
-#   facet_wrap(~GapOuts)
-#   geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4))
-
-ggplot(df6, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
-  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4))
-
-ggplot(df6, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
-  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4)) +
-  facet_wrap(~SignalID)
-# + scale_y_continuous(limits = c(0, 170))
-
-# ggplot(df5, aes(x = ArrivalsOnGreen, fill = SignalID)) +
-#   geom_bar() +
-#   facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 170))
-# 
-# ggplot(df5, aes(x = SplitFailures, fill = SignalID)) +
-#   geom_bar() +
-#   facet_wrap(~SignalID)
-
-# ggplot(df5, aes(x = SplitFailures)) +
-#   geom_bar() +
-#   geom_abline(slope = 0, intercept = 3000, color = "red")
-#   # facet_wrap(~ApproachId)
-# 
-# ggplot(df5, aes(x = ArrivalsOnGreen, fill = SignalID)) +
-#   geom_bar() +
-#   facet_wrap(~SignalID) +
-#   scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 170))
-
-# ggplot(df5 %>% filter(),
-#        aes(x = BinStartTime, y = SplitFailures, group = paste(SignalID, ApproachId))) +
-#   geom_line()
-# 
-# ggplot(df5 %>% filter(),
-#        aes(x = BinStartTime, fill = SplitFailures)) +
-#   geom_bar()
-
-ggplot(RA,aes(x = TotalRedLightViolations, fill = ApproachId)) +
-  geom_bar() +
-  facet_wrap(~ApproachId)
-
-ggplot(df6,aes(x = TotalVolume, y = TotalRedLightViolations)) +
-  geom_point(alpha = 0.2) +
-  scale_x_continuous(limits = c(0,1100))
-
-ggplot(df6,aes(x = TotalVolume, y = TotalRedLightViolations)) +
-  geom_point(alpha = 0.2) +
-  scale_x_continuous(limits = c(0,1100)) +
-  facet_wrap(~SignalID)
-
-## thresholed plots ========
-ggplot(df6, aes(x = TotalVolume, y = ForceOffs)) +
+### Forceoffs VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = ForceOffs)) +
   geom_abline(slope = 30/200, intercept = 0, col = "red")+
   geom_abline(slope = 30/400, intercept = -5, col = "red")+
   geom_abline(slope = 30/600, intercept = -10, col = "red")+
   geom_abline(slope = 30/800, intercept = -15, col = "red")+
   geom_hline(yintercept = 0.5, col = "blue")+
   geom_point(alpha = 0.2) 
-  
+```
 
-# ggplot(df6, aes(x = TotalVolume, y = ForceOffs)) +
-#   geom_vline(xintercept = 200, col = "red")+
-#   geom_hline(yintercept = 15, col = "blue")+
-#   geom_point(alpha = 0.2) + 
-#   geom_smooth(method = 'lm')
+### Forceoffs Vs TotalVolume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = ForceOffs/TotalCycles)) +
+  geom_point(alpha = 0.2) 
+```
 
-ggplot(df6, aes(x = TotalVolume, y = GapOuts)) +
+## Gapouts Plots {.tabset}
+### Gapouts Histogram
+```{r GapOuts Histogram Plot}
+ggplot(df7, aes(x = GapOuts)) + geom_histogram(color = "black", fill = "Blue") + scale_x_continuous(limits = c(-1, 20))
+```
+
+### Gapouts by SignalID
+```{r Gapouts by SignalID}
+ggplot(df7, aes(x = GapOuts)) + geom_bar(color = "black", fill = "Blue") + scale_x_continuous(limits = c(0, 20)) + scale_y_continuous(limits = c(0, 500)) + facet_wrap(~SignalID)
+```
+
+### Gapouts per Cycle
+```{r Avg Gapouts per Cycle}
+ggplot(df7, aes(x = GapOuts/TotalCycles)) + geom_bar(color = "black", fill = "Blue")
+```
+
+### Gapouts VS PlatoonRatio
+```{R}
+ggplot(df7, aes(x = GapOuts, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)
+```
+
+### Gapouts VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = GapOuts)) +
   geom_abline(slope = 30/200, intercept = 0, col = "red")+
   geom_abline(slope = 30/400, intercept = -5, col = "red")+
   geom_abline(slope = 30/600, intercept = -10, col = "red")+
   geom_abline(slope = 30/800, intercept = -15, col = "red")+
   geom_hline(yintercept = 0.5, col = "blue")+
   geom_point(alpha = 0.2)
+```
 
-ggplot(df6, aes(x = TotalVolume, y = ArrivalsOnGreen)) +
+### Gapouts VS TotalVolume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume/TotalCycles, y = GapOuts/TotalCycles)) +
   geom_point(alpha = 0.2)
+```
 
-ggplot(df6, aes(x = TotalVolume, y = ArrivalsOnRed)) +
-  geom_point(alpha = 0.2)
+## ArrivalsOnGreen Plots {.tabset}
+### ArrivalsOnGreen Histogram
+```{r AOG Histogram Plot}
+ggplot(df7, aes(x = ArrivalsOnGreen)) + geom_histogram(color = "black", fill = "Green") 
+```
 
-ggplot(df6, aes(x = PlatoonRatio, y = VCRatio)) +
-  geom_point(alpha = 0.2)
+### ArrivalsOnGreen by SignalID
+```{r AOG by SignalID}
+ggplot(df7, aes(x = ArrivalsOnGreen, fill = SignalID)) + geom_bar(color = "Green", fill = "Green") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 50))
+```
 
-ggplot(df6, aes(x = TotalVolume, y = SplitFailures)) +
-  geom_point(alpha = 0.2)
+### ArrivalsOnGreen per Cycle
+```{r Percent AOG}
+ggplot(df7, aes((x = ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume)) + geom_bar(color = "black", fill = "green")
+```
 
-ggplot(df6, aes(x = TotalVolume, y = TotalRedLightViolations)) +
+### ArrivalsOnGreen VS PlatoonRatio
+```{r}
+ggplot(df7, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.3) +
+  #  facet_grid(is_protected~splitfails)
+  facet_wrap(~SplitFailures) +
+  scale_x_continuous(limits = c(0, 200))
+```
+
+### ArrivalsOnGreen VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = ArrivalsOnGreen)) +
   geom_point(alpha = 0.2)
+```
+
+### ArrivalsOnGreen VS TotalColume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)
+```
+
+```{r}
+ggplot(dfAMPeck, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)
+```
+```{r}
+ggplot(dfMidDay, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)
+```
+## ArrivalsOnRed Plots {.tabset}
+### ArrivalsOnRed Histogram
+```{r AOR Histogram Plot}
+ggplot(df7, aes(x = ArrivalsOnRed)) + geom_histogram(color = "black", fill = "Red")
+```
+
+### ArrivalsOnRed by SignalID
+```{r AOR by SignalID}
+ggplot(df7, aes(x = ArrivalsOnRed, fill = SignalID)) + geom_bar(color = "Red", fill = "Red") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 100)) + scale_y_continuous(limits = c(0, 400))
+```
+
+### ArrivalsOnRed per Cycle
+```{r Percent AOR}
+ggplot(df7, aes((x = ArrivalsOnRed) / TotalVolume)) + geom_bar(color = "black", fill = "red")
+
+```
+
+### ArrivalsOnRed VS PlatoonRatio
+```{r}
+ggplot(df7, aes(x = ArrivalsOnRed, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.3) +
+  #  facet_grid(is_protected~splitfails)
+  facet_wrap(~SplitFailures) +
+  scale_x_continuous(limits = c(0, 200))
+```
+
+### ArrivalsOnRed VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = ArrivalsOnRed)) +
+  geom_point(alpha = 0.2)
+```
+
+### ArrivalsOnRed VS TotalVolume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = ((ArrivalsOnRed)/TotalVolume))) +
+  geom_point(alpha = 0.2)
+```
+
+## PlatoonRatio Plots {.tabset}
+### PlatoonRatio Histogram
+```{r PlatoonRatio Histogram Plot}
+ggplot(df7, aes(x = PlatoonRatio)) + geom_histogram(color = "black", fill = "Blue")
+```
+
+### PlatoonRatio by SignalID
+```{r PlatoonRatio by SignalID}
+ggplot(df7, aes(x = PlatoonRatio, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
+```
+
+### PlatoonRatio VS VCRatio
+```{r}
+ggplot(df7, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
+  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4))
+```
+
+### PlatoonRatio VS VCRatio by SignalID
+```{r}
+ggplot(df7, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
+  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4)) +
+  facet_wrap(~SignalID)
+```
+
+### PlatoonRatio VS PercentGreen
+```{r}
+ggplot(df7, aes(x = PercentGreen, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures) 
+```
+
+## SplitFailures Plots {.tabset}
+### SplitFailures Histogram
+```{r SF Histogram Plot}
+ggplot(df7, aes(x = SplitFailures)) + geom_histogram(color = "black", fill = "Blue")
+```
+
+### SplitFailures by SignalID
+```{r SF by SignalID}
+ggplot(df7, aes(x = SplitFailures, fill = SignalID)) + geom_bar(color = "black", fill = "Blue") + facet_wrap(~SignalID)
+```
+
+### SplitFailures per Cycle
+```{r Avg SF per Cycle}
+ggplot(df7, aes(x = SplitFailures/TotalCycles)) + geom_bar(color = "black", fill = "Blue")
+```
+
+### SplitFailures VS PlatoonRatio
+```{r}
+ggplot(df7, aes(x = SplitFailures, y = PlatoonRatio)) +
+  geom_point() 
+```
+
+### SplitFailures VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = SplitFailures)) +
+  geom_point(alpha = 0.2)
+```
+
+### SplitFailures VS TotalVolume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles)) +
+  geom_point(alpha = 0.2)
+```
+
+## TotalRedLightViolations Plots {.tabset}
+### RedLightViolations Histogram
+```{r RedLight Violation Histogram Plot}
+ggplot(df7, aes(x = TotalRedLightViolations)) + geom_histogram(color = "black", fill = "red")
+```
+
+### RedLightViolations by SignalID
+```{r RedLight Violation by SignalID}
+ggplot(df7, aes(x = TotalRedLightViolations, fill = SignalID)) + geom_bar(color = "black", fill = "Red") + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 40)) + scale_y_continuous(limits = c(0, 220))
+```
+
+### RedLightViolations per Cycle
+```{r Avg RedLight Violation per Cycle}
+ggplot(df7, aes(x = TotalRedLightViolations/TotalCycles)) + geom_bar(color = "black", fill = "Red")
+
+```
+
+### RedLightViolations VS TotalVolume
+```{r}
+ggplot(df7, aes(x = TotalVolume, y = TotalRedLightViolations)) +
+  geom_point(alpha = 0.2)
+```
+
+### RedLightViolations VS TotalVolume per Cycle
+```{r}
+ggplot(df7, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles)) +
+  geom_point(alpha = 0.2)
+```
+
+## VCRatio Plots {.tabset}
+### VCRatio Histogram
+```{r VCRatio  Histogram Plot}
+ggplot(df7, aes(x = VCRatio)) + geom_histogram(color = "black", fill = "Blue")
+```
+
+### VCRatio by SignalID
+```{r VCRatio by SignalID}
+ggplot(df7, aes(x = VCRatio, fill = SignalID))+ geom_bar(color = "black", fill = "Blue") +
+facet_wrap(~SignalID)
 ```

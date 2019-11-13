@@ -289,9 +289,6 @@ $(document).ready(function () {
 <li>
   <a href="03_data.html">K-Mean Cluster Analysis</a>
 </li>
-<li>
-  <a href="04_data.html">Cluster Variables</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -313,7 +310,7 @@ $(document).ready(function () {
 
 <div id="group-statistics" class="section level2">
 <h2>Group Statistics</h2>
-<pre class="r"><code>df6 %&gt;% group_by(BinStartTime) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(BinStartTime) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 384 x 2
 ##    BinStartTime            n
 ##    &lt;dttm&gt;              &lt;int&gt;
@@ -328,7 +325,7 @@ $(document).ready(function () {
 ##  9 2018-03-06 12:00:00    20
 ## 10 2018-03-06 12:15:00    20
 ## # ... with 374 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(SignalID) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(SignalID) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 10 x 2
 ##    SignalID     n
 ##       &lt;dbl&gt; &lt;int&gt;
@@ -342,7 +339,7 @@ $(document).ready(function () {
 ##  8     4705   768
 ##  9     4706   768
 ## 10     7207   768</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(ApproachId) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(ApproachId) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 20 x 2
 ##    ApproachId     n
 ##         &lt;dbl&gt; &lt;int&gt;
@@ -366,7 +363,7 @@ $(document).ready(function () {
 ## 18       6101   384
 ## 19       6561   384
 ## 20       6565   384</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(ArrivalsOnGreen) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(ArrivalsOnGreen) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 414 x 2
 ##    ArrivalsOnGreen     n
 ##              &lt;dbl&gt; &lt;int&gt;
@@ -381,7 +378,7 @@ $(document).ready(function () {
 ##  9               8    38
 ## 10               9    27
 ## # ... with 404 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(ArrivalsOnRed) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(ArrivalsOnRed) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 281 x 2
 ##    ArrivalsOnRed     n
 ##            &lt;dbl&gt; &lt;int&gt;
@@ -396,7 +393,7 @@ $(document).ready(function () {
 ##  9             8   114
 ## 10             9   111
 ## # ... with 271 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(ArrivalsOnYellow) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(ArrivalsOnYellow) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 52 x 2
 ##    ArrivalsOnYellow     n
 ##               &lt;dbl&gt; &lt;int&gt;
@@ -411,7 +408,7 @@ $(document).ready(function () {
 ##  9                8   414
 ## 10                9   325
 ## # ... with 42 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalVolume) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalVolume) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 544 x 2
 ##    TotalVolume     n
 ##          &lt;dbl&gt; &lt;int&gt;
@@ -426,7 +423,7 @@ $(document).ready(function () {
 ##  9           8    12
 ## 10           9     7
 ## # ... with 534 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(PlatoonRatio) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(PlatoonRatio) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 253 x 2
 ##    PlatoonRatio     n
 ##           &lt;dbl&gt; &lt;int&gt;
@@ -441,7 +438,7 @@ $(document).ready(function () {
 ##  9         0.18     5
 ## 10         0.19     3
 ## # ... with 243 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(PercentGreen) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(PercentGreen) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 92 x 2
 ##    PercentGreen     n
 ##           &lt;dbl&gt; &lt;int&gt;
@@ -456,7 +453,7 @@ $(document).ready(function () {
 ##  9           17    84
 ## 10           18    82
 ## # ... with 82 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalTime) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalTime) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 1,189 x 2
 ##    TotalTime     n
 ##        &lt;dbl&gt; &lt;int&gt;
@@ -471,7 +468,7 @@ $(document).ready(function () {
 ##  9      372      2
 ## 10      400      4
 ## # ... with 1,179 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalGreenTime) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalGreenTime) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 4,070 x 2
 ##    TotalGreenTime     n
 ##             &lt;dbl&gt; &lt;int&gt;
@@ -486,7 +483,7 @@ $(document).ready(function () {
 ##  9           86.9     1
 ## 10           87.9     1
 ## # ... with 4,060 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalYellowTime) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalYellowTime) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 160 x 2
 ##    TotalYellowTime     n
 ##              &lt;dbl&gt; &lt;int&gt;
@@ -501,7 +498,7 @@ $(document).ready(function () {
 ##  9            13.2     4
 ## 10            13.5    56
 ## # ... with 150 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalRedTime) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalRedTime) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 4,089 x 2
 ##    TotalRedTime     n
 ##           &lt;dbl&gt; &lt;int&gt;
@@ -516,7 +513,7 @@ $(document).ready(function () {
 ##  9         25.9     3
 ## 10         26.4     2
 ## # ... with 4,079 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(SplitFailures) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(SplitFailures) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 13 x 2
 ##    SplitFailures     n
 ##            &lt;dbl&gt; &lt;int&gt;
@@ -533,14 +530,14 @@ $(document).ready(function () {
 ## 11            10     4
 ## 12            11     4
 ## 13            NA   768</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(PhaseNumber) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(PhaseNumber) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 3 x 2
 ##   PhaseNumber     n
 ##         &lt;dbl&gt; &lt;int&gt;
 ## 1           2  3839
 ## 2           6  3838
 ## 3          NA     3</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(GapOuts) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(GapOuts) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 34 x 2
 ##    GapOuts     n
 ##      &lt;dbl&gt; &lt;int&gt;
@@ -555,7 +552,7 @@ $(document).ready(function () {
 ##  9       8   102
 ## 10       9     9
 ## # ... with 24 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(ForceOffs) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(ForceOffs) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 28 x 2
 ##    ForceOffs     n
 ##        &lt;dbl&gt; &lt;int&gt;
@@ -570,7 +567,7 @@ $(document).ready(function () {
 ##  9         8   977
 ## 10         9   430
 ## # ... with 18 more rows</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(MaxOuts) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(MaxOuts) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   MaxOuts     n
 ##     &lt;dbl&gt; &lt;int&gt;
@@ -579,7 +576,7 @@ $(document).ready(function () {
 ## 3       2     4
 ## 4       3     1
 ## 5      NA     3</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(SevereRedLightViolations) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(SevereRedLightViolations) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 12 x 2
 ##    SevereRedLightViolations     n
 ##                       &lt;dbl&gt; &lt;int&gt;
@@ -595,7 +592,7 @@ $(document).ready(function () {
 ## 10                       28     2
 ## 11                       30     1
 ## 12                       NA  1152</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalRedLightViolations) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalRedLightViolations) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 15 x 2
 ##    TotalRedLightViolations     n
 ##                      &lt;dbl&gt; &lt;int&gt;
@@ -614,7 +611,7 @@ $(document).ready(function () {
 ## 13                      28     1
 ## 14                      30     2
 ## 15                      NA  1152</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(TotalCycles) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(TotalCycles) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 19 x 2
 ##    TotalCycles     n
 ##          &lt;dbl&gt; &lt;int&gt;
@@ -637,7 +634,7 @@ $(document).ready(function () {
 ## 17          16     9
 ## 18          17    15
 ## 19          18     4</code></pre>
-<pre class="r"><code>df6 %&gt;% group_by(VCRatio) %&gt;% tally()</code></pre>
+<pre class="r"><code>df7 %&gt;% group_by(VCRatio) %&gt;% tally()</code></pre>
 <pre><code>## # A tibble: 7,184 x 2
 ##     VCRatio     n
 ##       &lt;dbl&gt; &lt;int&gt;
@@ -652,199 +649,47 @@ $(document).ready(function () {
 ##  9 0.000311     1
 ## 10 0.000325     1
 ## # ... with 7,174 more rows</code></pre>
-<pre class="r"><code>TotalVolume &lt;- table(df6$TotalVolume)
-SplitFailures &lt;- table(df6$SplitFailures)
-ArrivalsOnGreen &lt;- table(df6$ArrivalsOnGreen)
-ArrivalsOnRed &lt;- table(df6$ArrivalsOnRed)
-PlatoonRatio &lt;- table(df6$PlatoonRatio)
-ForceOffs &lt;- table(df6$ForceOffs)
-Gapouts &lt;- table(df6$GapOuts)
-VCRatio &lt;- table(df6$VCRatio)
-TotalRedLightViolations &lt;- table(df6$TotalRedLightViolations)</code></pre>
+<pre class="r"><code>TotalVolume &lt;- table(df7$TotalVolume)
+SplitFailures &lt;- table(df7$SplitFailures)
+ArrivalsOnGreen &lt;- table(df7$ArrivalsOnGreen)
+ArrivalsOnRed &lt;- table(df7$ArrivalsOnRed)
+PlatoonRatio &lt;- table(df7$PlatoonRatio)
+ForceOffs &lt;- table(df7$ForceOffs)
+Gapouts &lt;- table(df7$GapOuts)
+VCRatio &lt;- table(df7$VCRatio)
+TotalRedLightViolations &lt;- table(df7$TotalRedLightViolations)</code></pre>
 </div>
-<div id="histogram-plots" class="section level2">
-<h2>Histogram Plots</h2>
-</div>
-<div id="plots" class="section level2 tabset">
-<h2>Plots</h2>
-<div id="forceoffs" class="section level3">
-<h3>Forceoffs</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ForceOffs)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;) </code></pre>
+<div id="forceoffs-plots" class="section level2 tabset">
+<h2>Forceoffs Plots</h2>
+<div id="forceoffs-histogram" class="section level3">
+<h3>Forceoffs Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ForceOffs)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 3 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = ForceOffs, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
+<p><img src="02_data_files/figure-html/ForceOffs%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="forceoffs-by-signalid" class="section level3">
+<h3>Forceoffs by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ForceOffs, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
 <pre><code>## Warning: Removed 3 rows containing non-finite values (stat_count).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
-<pre class="r"><code># ggplot(df5, aes(x = ForceOffs)) + geom_histogram(aes(y = ..density..), color = &quot;black&quot;, fill = &quot;Blue&quot;) + geom_density(alpha = 0.2, fill = &quot;#F60404&quot;)</code></pre>
+<p><img src="02_data_files/figure-html/ForceOffs%20by%20SignalID-1.png" width="672" /></p>
 </div>
-<div id="gapouts" class="section level3">
-<h3>Gapouts</h3>
-<pre class="r"><code>ggplot(df6, aes(x = GapOuts)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;) + scale_x_continuous(limits = c(-1, 20))</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_bin).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = GapOuts)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;) + scale_x_continuous(limits = c(0, 20)) + scale_y_continuous(limits = c(0, 500))</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_bin).
-
-## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
-</div>
-<div id="arrivalsongreen" class="section level3">
-<h3>ArrivalsOnGreen</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnGreen)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Green&quot;) </code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnGreen, fill = SignalID)) + geom_bar(color = &quot;Green&quot;, fill = &quot;Green&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 50))</code></pre>
-<pre><code>## Warning: Removed 356 rows containing non-finite values (stat_count).</code></pre>
-<pre><code>## Warning: Removed 7 rows containing missing values (geom_bar).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
-</div>
-<div id="arrivalsonred" class="section level3">
-<h3>ArrivalsOnRed</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnRed)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Red&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnRed, fill = SignalID)) + geom_bar(color = &quot;Red&quot;, fill = &quot;Red&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 100)) + scale_y_continuous(limits = c(0, 400))</code></pre>
-<pre><code>## Warning: Removed 1709 rows containing non-finite values (stat_count).</code></pre>
-<pre><code>## Warning: Removed 12 rows containing missing values (geom_bar).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
-</div>
-<div id="platoonratio" class="section level3">
-<h3>PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = PlatoonRatio)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = PlatoonRatio, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
-</div>
-<div id="splitfailures" class="section level3">
-<h3>SplitFailures</h3>
-<pre class="r"><code>ggplot(df6, aes(x = SplitFailures)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 768 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = SplitFailures, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
-<pre><code>## Warning: Removed 768 rows containing non-finite values (stat_count).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
-</div>
-<div id="totalredlightviolations" class="section level3">
-<h3>TotalRedLightViolations</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalRedLightViolations)) + geom_histogram(color = &quot;black&quot;, fill = &quot;red&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 1152 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = TotalRedLightViolations, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Red&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 40)) + scale_y_continuous(limits = c(0, 220))</code></pre>
-<pre><code>## Warning: Removed 1152 rows containing non-finite values (stat_count).</code></pre>
-<pre><code>## Warning: Removed 10 rows containing missing values (geom_bar).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
-</div>
-<div id="vcratio" class="section level3">
-<h3>VCRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = VCRatio)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 8 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<pre class="r"><code># ggplot(df6, aes(x = VCRatio, fill = SignalID))+ geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + 
-# facet_wrap(~SignalID)</code></pre>
-</div>
-</div>
-<div id="x-y-plots" class="section level2">
-<h2>x-y plots</h2>
-</div>
-<div id="plots-1" class="section level2 tabset">
-<h2>Plots</h2>
-<div id="arrivalsongreen-vs-platoonratio" class="section level3">
-<h3>ArrivalsOnGreen VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.3) +
-  #  facet_grid(is_protected~splitfails)
-  facet_wrap(~SplitFailures) +
-  scale_x_continuous(limits = c(0, 200))</code></pre>
-<pre><code>## Warning: Removed 356 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-</div>
-<div id="arrivalsonred-vs-platoonratio" class="section level3">
-<h3>ArrivalsOnRed VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ArrivalsOnRed, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.3) +
-  #  facet_grid(is_protected~splitfails)
-  facet_wrap(~SplitFailures) +
-  scale_x_continuous(limits = c(0, 200))</code></pre>
-<pre><code>## Warning: Removed 137 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-</div>
-<div id="percentgreen-vs-platoonratio" class="section level3">
-<h3>PercentGreen VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = PercentGreen, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures) </code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-</div>
-<div id="gapouts-vs-platoonratio" class="section level3">
-<h3>GapOuts VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = GapOuts, y = PlatoonRatio, color = SplitFailures)) +
-  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)</code></pre>
-<pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div id="forceoffs-per-cycle" class="section level3">
+<h3>Forceoffs per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ForceOffs / TotalCycles)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Avg%20Forceoffs%20per%20Cycle-1.png" width="672" /></p>
 </div>
 <div id="forceoffs-vs-platoonratio" class="section level3">
 <h3>Forceoffs VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = ForceOffs, y = PlatoonRatio, color = SplitFailures)) +
+<pre class="r"><code>ggplot(df7, aes(x = ForceOffs, y = PlatoonRatio, color = SplitFailures)) +
   geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)</code></pre>
 <pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
-<div id="splitfailures-vs-platoonratio" class="section level3">
-<h3>SplitFailures VS PlatoonRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = SplitFailures, y = PlatoonRatio)) +
-  geom_point() </code></pre>
-<pre><code>## Warning: Removed 768 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-</div>
-<div id="platoonratio-vs-vcratio" class="section level3">
-<h3>PlatoonRatio VS VCRatio</h3>
-<pre class="r"><code>ggplot(df6, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
-  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4))</code></pre>
-<pre><code>## Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
-  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4)) +
-  facet_wrap(~SignalID)</code></pre>
-<pre><code>## Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
-</div>
-<div id="totalredlightviolations-grouped-by-approachid" class="section level3">
-<h3>TotalRedLightViolations grouped by ApproachId</h3>
-<pre class="r"><code>ggplot(RA,aes(x = TotalRedLightViolations, fill = ApproachId)) +
-  geom_bar() +
-  facet_wrap(~ApproachId)</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-</div>
-<div id="totalvolume-vs-totalredlightviolations" class="section level3">
-<h3>TotalVolume VS TotalRedLightViolations</h3>
-<pre class="r"><code>ggplot(df6,aes(x = TotalVolume, y = TotalRedLightViolations)) +
-  geom_point(alpha = 0.2) +
-  scale_x_continuous(limits = c(0,1100))</code></pre>
-<pre><code>## Warning: Removed 1152 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df6,aes(x = TotalVolume, y = TotalRedLightViolations)) +
-  geom_point(alpha = 0.2) +
-  scale_x_continuous(limits = c(0,1100)) +
-  facet_wrap(~SignalID)</code></pre>
-<pre><code>## Warning: Removed 1152 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
-</div>
-</div>
-<div id="thresholed-plots-totalvolume-vs-variables" class="section level2">
-<h2>Thresholed plots TotalVolume VS variables</h2>
-</div>
-<div id="plots-2" class="section level2 tabset">
-<h2>Plots</h2>
-<div id="forceoffs-1" class="section level3">
-<h3>ForceOffs</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = ForceOffs)) +
+<div id="forceoffs-vs-totalvolume" class="section level3">
+<h3>Forceoffs VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = ForceOffs)) +
   geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
   geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
   geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
@@ -852,11 +697,49 @@ TotalRedLightViolations &lt;- table(df6$TotalRedLightViolations)</code></pre>
   geom_hline(yintercept = 0.5, col = &quot;blue&quot;)+
   geom_point(alpha = 0.2) </code></pre>
 <pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
-<div id="gapouts-1" class="section level3">
-<h3>GapOuts</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = GapOuts)) +
+<div id="forceoffs-vs-totalvolume-per-cycle" class="section level3">
+<h3>Forceoffs Vs TotalVolume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = ForceOffs/TotalCycles)) +
+  geom_point(alpha = 0.2) </code></pre>
+<pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="gapouts-plots" class="section level2 tabset">
+<h2>Gapouts Plots</h2>
+<div id="gapouts-histogram" class="section level3">
+<h3>Gapouts Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = GapOuts)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;) + scale_x_continuous(limits = c(-1, 20))</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<p><img src="02_data_files/figure-html/GapOuts%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="gapouts-by-signalid" class="section level3">
+<h3>Gapouts by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = GapOuts)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + scale_x_continuous(limits = c(0, 20)) + scale_y_continuous(limits = c(0, 500)) + facet_wrap(~SignalID)</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 11 rows containing missing values (geom_bar).</code></pre>
+<p><img src="02_data_files/figure-html/Gapouts%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="gapouts-per-cycle" class="section level3">
+<h3>Gapouts per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = GapOuts/TotalCycles)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Avg%20Gapouts%20per%20Cycle-1.png" width="672" /></p>
+</div>
+<div id="gapouts-vs-platoonratio" class="section level3">
+<h3>Gapouts VS PlatoonRatio</h3>
+<pre class="r"><code>ggplot(df7, aes(x = GapOuts, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures)</code></pre>
+<pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="gapouts-vs-totalvolume" class="section level3">
+<h3>Gapouts VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = GapOuts)) +
   geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
   geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
   geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
@@ -864,33 +747,255 @@ TotalRedLightViolations &lt;- table(df6$TotalRedLightViolations)</code></pre>
   geom_hline(yintercept = 0.5, col = &quot;blue&quot;)+
   geom_point(alpha = 0.2)</code></pre>
 <pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="arrivalsongreen-1" class="section level3">
-<h3>ArrivalsOnGreen</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = ArrivalsOnGreen)) +
+<div id="gapouts-vs-totalvolume-per-cycle" class="section level3">
+<h3>Gapouts VS TotalVolume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume/TotalCycles, y = GapOuts/TotalCycles)) +
   geom_point(alpha = 0.2)</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="arrivalsonred-1" class="section level3">
-<h3>ArrivalsOnRed</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = ArrivalsOnRed)) +
+</div>
+<div id="arrivalsongreen-plots" class="section level2 tabset">
+<h2>ArrivalsOnGreen Plots</h2>
+<div id="arrivalsongreen-histogram" class="section level3">
+<h3>ArrivalsOnGreen Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnGreen)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Green&quot;) </code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="02_data_files/figure-html/AOG%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="arrivalsongreen-by-signalid" class="section level3">
+<h3>ArrivalsOnGreen by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnGreen, fill = SignalID)) + geom_bar(color = &quot;Green&quot;, fill = &quot;Green&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 200)) + scale_y_continuous(limits = c(0, 50))</code></pre>
+<pre><code>## Warning: Removed 356 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values (geom_bar).</code></pre>
+<p><img src="02_data_files/figure-html/AOG%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="arrivalsongreen-per-cycle" class="section level3">
+<h3>ArrivalsOnGreen per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes((x = ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume)) + geom_bar(color = &quot;black&quot;, fill = &quot;green&quot;)</code></pre>
+<pre><code>## Warning: Removed 448 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Percent%20AOG-1.png" width="672" /></p>
+</div>
+<div id="arrivalsongreen-vs-platoonratio" class="section level3">
+<h3>ArrivalsOnGreen VS PlatoonRatio</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnGreen, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.3) +
+  #  facet_grid(is_protected~splitfails)
+  facet_wrap(~SplitFailures) +
+  scale_x_continuous(limits = c(0, 200))</code></pre>
+<pre><code>## Warning: Removed 356 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="arrivalsongreen-vs-totalvolume" class="section level3">
+<h3>ArrivalsOnGreen VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = ArrivalsOnGreen)) +
   geom_point(alpha = 0.2)</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
-<div id="splitfailures-1" class="section level3">
-<h3>SplitFailures</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = SplitFailures)) +
+<div id="arrivalsongreen-vs-totalcolume-per-cycle" class="section level3">
+<h3>ArrivalsOnGreen VS TotalColume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 448 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(dfAMPeck, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 200 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(dfMidDay, aes(x = TotalVolume, y = (ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 248 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-11-1.png" width="672" /> ## ArrivalsOnRed Plots {.tabset} ### ArrivalsOnRed Histogram</p>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnRed)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Red&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="02_data_files/figure-html/AOR%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="arrivalsonred-by-signalid" class="section level3">
+<h3>ArrivalsOnRed by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnRed, fill = SignalID)) + geom_bar(color = &quot;Red&quot;, fill = &quot;Red&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 100)) + scale_y_continuous(limits = c(0, 400))</code></pre>
+<pre><code>## Warning: Removed 1709 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 12 rows containing missing values (geom_bar).</code></pre>
+<p><img src="02_data_files/figure-html/AOR%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="arrivalsonred-per-cycle" class="section level3">
+<h3>ArrivalsOnRed per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes((x = ArrivalsOnRed) / TotalVolume)) + geom_bar(color = &quot;black&quot;, fill = &quot;red&quot;)</code></pre>
+<pre><code>## Warning: Removed 448 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Percent%20AOR-1.png" width="672" /></p>
+</div>
+<div id="arrivalsonred-vs-platoonratio" class="section level3">
+<h3>ArrivalsOnRed VS PlatoonRatio</h3>
+<pre class="r"><code>ggplot(df7, aes(x = ArrivalsOnRed, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.3) +
+  #  facet_grid(is_protected~splitfails)
+  facet_wrap(~SplitFailures) +
+  scale_x_continuous(limits = c(0, 200))</code></pre>
+<pre><code>## Warning: Removed 137 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="arrivalsonred-vs-totalvolume" class="section level3">
+<h3>ArrivalsOnRed VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = ArrivalsOnRed)) +
+  geom_point(alpha = 0.2)</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="arrivalsonred-vs-totalvolume-per-cycle" class="section level3">
+<h3>ArrivalsOnRed VS TotalVolume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = ((ArrivalsOnRed)/TotalVolume))) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 448 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="platoonratio-plots" class="section level2 tabset">
+<h2>PlatoonRatio Plots</h2>
+<div id="platoonratio-histogram" class="section level3">
+<h3>PlatoonRatio Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = PlatoonRatio)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="02_data_files/figure-html/PlatoonRatio%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-by-signalid" class="section level3">
+<h3>PlatoonRatio by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = PlatoonRatio, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
+<p><img src="02_data_files/figure-html/PlatoonRatio%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-vcratio" class="section level3">
+<h3>PlatoonRatio VS VCRatio</h3>
+<pre class="r"><code>ggplot(df7, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
+  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4))</code></pre>
+<pre><code>## Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-vcratio-by-signalid" class="section level3">
+<h3>PlatoonRatio VS VCRatio by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = PlatoonRatio, y = VCRatio, SignalID)) +
+  geom_point(alpha = 0.2) + scale_x_continuous(limits = c(0,4)) +
+  facet_wrap(~SignalID)</code></pre>
+<pre><code>## Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-percentgreen" class="section level3">
+<h3>PlatoonRatio VS PercentGreen</h3>
+<pre class="r"><code>ggplot(df7, aes(x = PercentGreen, y = PlatoonRatio, color = SplitFailures)) +
+  geom_point(alpha = 0.2) + facet_wrap(~SplitFailures) </code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
+<div id="splitfailures-plots" class="section level2 tabset">
+<h2>SplitFailures Plots</h2>
+<div id="splitfailures-histogram" class="section level3">
+<h3>SplitFailures Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = SplitFailures)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 768 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="02_data_files/figure-html/SF%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="splitfailures-by-signalid" class="section level3">
+<h3>SplitFailures by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = SplitFailures, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) + facet_wrap(~SignalID)</code></pre>
+<pre><code>## Warning: Removed 768 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/SF%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="splitfailures-per-cycle" class="section level3">
+<h3>SplitFailures per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = SplitFailures/TotalCycles)) + geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## Warning: Removed 770 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Avg%20SF%20per%20Cycle-1.png" width="672" /></p>
+</div>
+<div id="splitfailures-vs-platoonratio" class="section level3">
+<h3>SplitFailures VS PlatoonRatio</h3>
+<pre class="r"><code>ggplot(df7, aes(x = SplitFailures, y = PlatoonRatio)) +
+  geom_point() </code></pre>
+<pre><code>## Warning: Removed 768 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="splitfailures-vs-totalvolume" class="section level3">
+<h3>SplitFailures VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = SplitFailures)) +
   geom_point(alpha = 0.2)</code></pre>
 <pre><code>## Warning: Removed 768 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div id="totalredlihtviolations" class="section level3">
-<h3>TotalRedLihtViolations</h3>
-<pre class="r"><code>ggplot(df6, aes(x = TotalVolume, y = TotalRedLightViolations)) +
+<div id="splitfailures-vs-totalvolume-per-cycle" class="section level3">
+<h3>SplitFailures VS TotalVolume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles)) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 770 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+</div>
+<div id="totalredlightviolations-plots" class="section level2 tabset">
+<h2>TotalRedLightViolations Plots</h2>
+<div id="redlightviolations-histogram" class="section level3">
+<h3>RedLightViolations Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalRedLightViolations)) + geom_histogram(color = &quot;black&quot;, fill = &quot;red&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 1152 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="02_data_files/figure-html/RedLight%20Violation%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="redlightviolations-by-signalid" class="section level3">
+<h3>RedLightViolations by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalRedLightViolations, fill = SignalID)) + geom_bar(color = &quot;black&quot;, fill = &quot;Red&quot;) + facet_wrap(~SignalID) + scale_x_continuous(limits = c(0, 40)) + scale_y_continuous(limits = c(0, 220))</code></pre>
+<pre><code>## Warning: Removed 1152 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Removed 10 rows containing missing values (geom_bar).</code></pre>
+<p><img src="02_data_files/figure-html/RedLight%20Violation%20by%20SignalID-1.png" width="672" /></p>
+</div>
+<div id="redlightviolations-per-cycle" class="section level3">
+<h3>RedLightViolations per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalRedLightViolations/TotalCycles)) + geom_bar(color = &quot;black&quot;, fill = &quot;Red&quot;)</code></pre>
+<pre><code>## Warning: Removed 1154 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="02_data_files/figure-html/Avg%20RedLight%20Violation%20per%20Cycle-1.png" width="672" /></p>
+</div>
+<div id="redlightviolations-vs-totalvolume" class="section level3">
+<h3>RedLightViolations VS TotalVolume</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume, y = TotalRedLightViolations)) +
   geom_point(alpha = 0.2)</code></pre>
 <pre><code>## Warning: Removed 1152 rows containing missing values (geom_point).</code></pre>
-<p><img src="02_data_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="02_data_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="redlightviolations-vs-totalvolume-per-cycle" class="section level3">
+<h3>RedLightViolations VS TotalVolume per Cycle</h3>
+<pre class="r"><code>ggplot(df7, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles)) +
+  geom_point(alpha = 0.2)</code></pre>
+<pre><code>## Warning: Removed 1154 rows containing missing values (geom_point).</code></pre>
+<p><img src="02_data_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+</div>
+<div id="vcratio-plots" class="section level2 tabset">
+<h2>VCRatio Plots</h2>
+<div id="vcratio-histogram" class="section level3">
+<h3>VCRatio Histogram</h3>
+<pre class="r"><code>ggplot(df7, aes(x = VCRatio)) + geom_histogram(color = &quot;black&quot;, fill = &quot;Blue&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 8 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="02_data_files/figure-html/VCRatio%20%20Histogram%20Plot-1.png" width="672" /></p>
+</div>
+<div id="vcratio-by-signalid" class="section level3">
+<h3>VCRatio by SignalID</h3>
+<pre class="r"><code>ggplot(df7, aes(x = VCRatio, fill = SignalID))+ geom_bar(color = &quot;black&quot;, fill = &quot;Blue&quot;) +
+facet_wrap(~SignalID)</code></pre>
+<pre><code>## Warning: Removed 8 rows containing non-finite values (stat_count).</code></pre>
+<pre><code>## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1
+
+## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1
+
+## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1
+
+## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1
+
+## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1
+
+## Warning: Computation failed in `stat_count()`:
+## Elements must equal the number of rows or 1</code></pre>
+<p><img src="02_data_files/figure-html/VCRatio%20by%20SignalID-1.png" width="672" /></p>
 </div>
 </div>
 

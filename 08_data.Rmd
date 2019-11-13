@@ -1,60 +1,50 @@
 ---
-title: "01_data"
+title: "08_data"
 author: "Bruce Wang"
-date: "11/11/2019"
+date: "11/13/2019"
 output: html_document
-editor_options: 
-  chunk_output_type: console
 ---
 
-## Loading Libraries
-```{r Loading Libraries}
-## Load Libraries
-library(tidyverse)
-library(readxl)
-library(lubridate)
-library(ggplot2)
-```
 
 ## Creating an Analysis Dataset
-This scripte is to analyze the group of signals on FtUnion corridor 
-There are total ten signals included on the FtUnion corrdior
+This scripte is to analyze the group of signals on StateSt corridor 
+There are total ten signals included on the StateSt corrdior
 ```{r measures Dataset}
 # Safety aggregation table: Red Light Actuation
-RA <-read_xls("data/FtUnion/FtUnion_RedActuation.xls") %>%
+RA <-read_xls("data/800N/800N_RedActuation.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime)
   )
 
 # Purdue Coordination Diagram aggregation table: Arrival On Green, Arrival On Red, and Platoon Ratio
-PCD <-read_xls("data/FtUnion/FtUnion_PCD.xls") %>% 
+PCD <-read_xls("data/800N/800N_PCD.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     PlatoonRatio = as.numeric(PlatoonRatio)
   )
     
 # Split Failure aggregation table: Split Failures
-SF <-read_xls("data/FtUnion/FtUnion_SplitFail.xls") %>% 
+SF <-read_xls("data/800N/800N_SplitFail.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
-    SignalID = as.numeric(SignalID)
+    # SignalID = as.numeric(SignalID)
   )  
 
 # Purdue Phase Termination Diagram aggregation table: Max out, Gap out, and Force Off
-PPT <-read_xls("data/FtUnion/FtUnion_PPT.xls") %>% 
+PPT <-read_xls("data/800N/800N_PPT.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
-    SignalID = as.numeric(SignalID)
+    SignalId = as.numeric(SignalId)
   )
 
-# Number of Cycles for FtUnion: Cycles Number 
-Cyc <-read_xls("data/FtUnion/FtUnion_Cycles.xls") %>%
+# Number of Cycles for 800N: Cycles Number 
+Cyc <-read_xls("data/800N/800N_Cycles.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime)
   )
 
-# Lane Configuration for FtUnion: Lane Configuration
-LC <-read_xls("data/FtUnion/FtUnion_LaneConfig.xls") %>%
+# Lane Configuration for 800N: Lane Configuration
+LC <-read_xls("data/800N/800N_LaneConfig.xls") %>%
   distinct(ApproachID, LaneNumber, Abbreviation) %>%
   group_by(ApproachID, Abbreviation) %>%
   summarise(n = max(LaneNumber)) %>%
@@ -68,7 +58,7 @@ LC <-read_xls("data/FtUnion/FtUnion_LaneConfig.xls") %>%
 ## Joining Aggregation Tables
 ```{r combine dataset}
 # Create a Base Table: BinStartTime, SignalID, and ApproachID
-BaseTable <-read_xls("data/FtUnion/FtUnion_BaseTable.xls") %>%
+BaseTable <-read_xls("data/800N/800N_BaseTable.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalID = as.numeric(SignalID),
@@ -79,15 +69,15 @@ BaseTable <-read_xls("data/FtUnion/FtUnion_BaseTable.xls") %>%
 # Join all the aggregation tables into a signle analysis dataset
 df <- left_join(
   BaseTable, PCD %>% select(-IsProtectedPhase),
-  by = c("BinStartTime", "ApproachId"))
+  by = c("BinStartTime","ApproachId"))
 
 df2 <- left_join(
   df, SF %>% select(-IsProtectedPhase),
-  by = c("BinStartTime", "SignalID", "ApproachId" = "ApproachID"))
+  by = c("BinStartTime", "ApproachId"))
 
 df3 <- left_join(
   df2, PPT, 
-  by = c("BinStartTime", "SignalID", "ApproachId" = "ApproachID"))
+  by = c("BinStartTime", "SignalID" = "SignalId"))
 
 df4 <- left_join(
   df3, RA,
@@ -104,7 +94,7 @@ df6 <- left_join(
   by = c("ApproachId" = "ApproachID")
 )
 
-df7 <- df6 %>% select(-year) %>% select(-Id) %>% select(-Volume) %>% select(-IsProtectedPhase) %>%
+df7 <- df6 %>% select(-year) %>% select(-Id) %>% select(-Volume) %>%
   mutate(
     TotalVolume = as.numeric(TotalVolume),
     PercentGreen = as.numeric(PercentGreen),

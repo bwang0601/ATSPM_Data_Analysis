@@ -7,9 +7,15 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Aggregation Table"
+    - text: "Aggregation Table- FtUnion"
       href: 01_data.html
-    - text: "Group Statistics and Plots"
+    - text: "Group Statistics and Plots- FtUnion "
       href: 02_data.html
-    - text: "K-Mean Cluster Analysis"
+    - text: "K-Mean Cluster Analysis- FtUnion"
       href: 03_data.html
+    - text: "Aggregation Table- 800N"
+      href: 05_data.html
+    - text: "Group Statistics and Plots- 800N "
+      href: 06_data.html
+    - text: "K-Mean Cluster Analysis- 800N"
+      href: 07_data.html

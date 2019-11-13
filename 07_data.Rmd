@@ -1,11 +1,12 @@
 ---
-title: "03_data"
+title: "07_data"
 author: "Bruce Wang"
-date: "11/11/2019"
+date: "11/13/2019"
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
 
 ## K-means Cluster Analysis
 ```{r}

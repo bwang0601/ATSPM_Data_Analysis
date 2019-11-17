@@ -3,19 +3,25 @@ output_dir: "docs"
 navbar:
   title: "ATSPM DATA ANALYSIS"
   left:
-    - text: "Home"
+    - text: "Home Page"
       href: index.html
     - text: "About"
       href: about.html
     - text: "Aggregation Table- FtUnion"
-      href: 01_data.html
+      href: Dataset-FtUnion.html
     - text: "Group Statistics and Plots- FtUnion "
-      href: 02_data.html
+      href: DataAnalysis-FtUnion.html
     - text: "K-Mean Cluster Analysis- FtUnion"
-      href: 03_data.html
+      href: ClusterAnalysis-FtUnion.html
     - text: "Aggregation Table- 800N"
-      href: 05_data.html
+      href: Dataset-800N.html
     - text: "Group Statistics and Plots- 800N "
-      href: 06_data.html
+      href: DataAnalysis-800N.html
     - text: "K-Mean Cluster Analysis- 800N"
-      href: 07_data.html
+      href: ClusterAnalysis-800N.html
+    - text: "Aggregation Table- StateSt"
+      href: Dataset-StateSt.html
+    - text: "Group Statistics and Plots- StateSt "
+      href: DataAnalysis-StateSt.html
+    - text: "K-Mean Cluster Analysis- StateSt"
+      href: ClusterAnalysis-StateSt.html

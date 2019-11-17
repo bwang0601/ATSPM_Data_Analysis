@@ -1,5 +1,7 @@
 ---
 title: "Bruce's Website"
+editor_options: 
+  chunk_output_type: console
 ---
 
 This wedsite is to introduce the ATSPMs data analysis 

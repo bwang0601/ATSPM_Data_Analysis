@@ -12,7 +12,7 @@
 
 <meta name="author" content="Bruce Wang" />
 
-<meta name="date" content="2019-10-10" />
+<meta name="date" content="2019-11-11" />
 
 <title>01_data</title>
 
@@ -281,13 +281,31 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="01_data.html">Aggregation Table</a>
+  <a href="01_data.html">Aggregation Table- FtUnion</a>
 </li>
 <li>
-  <a href="02_data.html">Group Statistics and Plots</a>
+  <a href="02_data.html">Group Statistics and Plots- FtUnion </a>
 </li>
 <li>
-  <a href="03_data.html">K-Mean Cluster Analysis</a>
+  <a href="03_data.html">K-Mean Cluster Analysis- FtUnion</a>
+</li>
+<li>
+  <a href="05_data.html">Aggregation Table- 800N</a>
+</li>
+<li>
+  <a href="06_data.html">Group Statistics and Plots- 800N </a>
+</li>
+<li>
+  <a href="07_data.html">K-Mean Cluster Analysis- 800N</a>
+</li>
+<li>
+  <a href="05_data.html">Aggregation Table- StateSt</a>
+</li>
+<li>
+  <a href="06_data.html">Group Statistics and Plots- StateSt </a>
+</li>
+<li>
+  <a href="07_data.html">K-Mean Cluster Analysis- StateSt</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -303,7 +321,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">01_data</h1>
 <h4 class="author">Bruce Wang</h4>
-<h4 class="date">10/10/2019</h4>
+<h4 class="date">11/11/2019</h4>
 
 </div>
 
@@ -445,9 +463,9 @@ df7 &lt;- df6 %&gt;% select(-year) %&gt;% select(-Id) %&gt;% select(-Volume) %&g
     TotalRedLightViolationsPerCycle = TotalRedLightViolations / TotalCycles
   )
 
-dfAMPeck &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;TRUE&quot;)
+dfAMPeck &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;TRUE&quot;) %&gt;% write_rds(&quot;data/dfAMPeck.rds&quot;)
 
-dfMidDay &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;FALSE&quot;)</code></pre>
+dfMidDay &lt;- df7 %&gt;% filter(df7$AMPeak == &quot;FALSE&quot;) %&gt;% write_rds(&quot;data/dfMidDay.rds&quot;)</code></pre>
 </div>
 
 

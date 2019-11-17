@@ -1,9 +1,27 @@
 ---
-title: "My Website"
+title: "Evaluating the Quality of Signal Operations using Signal Performance Measures"
+editor_options: 
+  chunk_output_type: console
 ---
 
-Hello, Website!
+Contact Information
 
-For more information about simple R Markdown websites, please read the documentation at https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html.
+Bangyu(Bruce) Wang, EIT
+Brigham Young University
+232 Engineering Building Provo, UT 84604
+(567)377-7383 bwang0601@gmail.com
 
-Please also note that simple R Markdown sites are _not_ based on **blogdown**. They are probably good for websites with only a few Rmd documents. For larger-scale and more sophisticated websites (such as blogs), you may want to use **blogdown** instead: https://github.com/rstudio/blogdown.
+Grant G. Schultz, Ph.D., P.E, PTOE
+Brigham Young University
+430O Engineering Building Provo, UT 84604
+(801)422-6332 gschultz@byu.edu
+
+Gregory S. Macfarlane, Ph.D., P.E
+Brigham Young University
+430B Engineering Building Provo, UT 84604
+(801)422-8505 gregmacfarlane@byu.edu
+
+Subrina McCuen
+Brigham Young University
+232 Engineering Building Provo, UT 84604
+(208)570-5862 sabrinamccuen@gmail.com

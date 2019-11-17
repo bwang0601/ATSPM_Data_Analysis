@@ -12,7 +12,7 @@
 
 <meta name="author" content="Bruce Wang" />
 
-<meta name="date" content="2019-10-10" />
+<meta name="date" content="2019-11-11" />
 
 <title>03_data</title>
 
@@ -281,13 +281,31 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="01_data.html">Aggregation Table</a>
+  <a href="01_data.html">Aggregation Table- FtUnion</a>
 </li>
 <li>
-  <a href="02_data.html">Group Statistics and Plots</a>
+  <a href="02_data.html">Group Statistics and Plots- FtUnion </a>
 </li>
 <li>
-  <a href="03_data.html">K-Mean Cluster Analysis</a>
+  <a href="03_data.html">K-Mean Cluster Analysis- FtUnion</a>
+</li>
+<li>
+  <a href="05_data.html">Aggregation Table- 800N</a>
+</li>
+<li>
+  <a href="06_data.html">Group Statistics and Plots- 800N </a>
+</li>
+<li>
+  <a href="07_data.html">K-Mean Cluster Analysis- 800N</a>
+</li>
+<li>
+  <a href="05_data.html">Aggregation Table- StateSt</a>
+</li>
+<li>
+  <a href="06_data.html">Group Statistics and Plots- StateSt </a>
+</li>
+<li>
+  <a href="07_data.html">K-Mean Cluster Analysis- StateSt</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -303,17 +321,28 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">03_data</h1>
 <h4 class="author">Bruce Wang</h4>
-<h4 class="date">10/10/2019</h4>
+<h4 class="date">11/11/2019</h4>
 
 </div>
 
 
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.2.1     v purrr   0.3.2
+## v tibble  2.1.3     v dplyr   0.8.3
+## v tidyr   0.8.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.4.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>dfAMPeck &lt;- read_rds(&quot;data/dfAMPeck.rds&quot;)
+dfMidDay &lt;- read_rds(&quot;data/dfMidDay.rds&quot;)</code></pre>
 <div id="k-means-cluster-analysis" class="section level2">
 <h2>K-means Cluster Analysis</h2>
 <pre class="r"><code># Setup Cluster variables
-set.seed(5)
+set.seed(3)
 
-cluster_variables &lt;- c(&quot;TotalVolume&quot;, &quot;SplitFailures&quot;, &quot;ArrivalsOnGreen&quot;, &quot;ArrivalsOnRed&quot;, &quot;PlatoonRatio&quot;, &quot;ForceOffs&quot;, &quot;GapOuts&quot;, &quot;VCRatio&quot;, &quot;TotalRedLightViolations&quot;)
+cluster_variables &lt;- c(&quot;TotalVolume&quot;, &quot;SplitFailures&quot;, &quot;ArrivalsOnGreen&quot;, &quot;PlatoonRatio&quot;, &quot;TotalRedLightViolations&quot;)
 
 # Create Table without NA Volue
 complete_dfAMPeak &lt;- na.omit(dfAMPeck)
@@ -367,43 +396,43 @@ clustered_dfMidDay &lt;- complete_dfMidDay %&gt;%
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">506</td>
-<td align="right">120</td>
-<td align="right">24</td>
-<td align="right">18</td>
-<td align="right">0</td>
+<td align="right">499</td>
+<td align="right">5</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">12</td>
-<td align="right">454</td>
+<td align="right">142</td>
+<td align="right">552</td>
 <td align="right">0</td>
-<td align="right">69</td>
-<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">26</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">27</td>
-<td align="right">437</td>
-<td align="right">104</td>
-<td align="right">85</td>
+<td align="right">218</td>
+<td align="right">186</td>
+<td align="right">65</td>
 <td align="right">0</td>
+<td align="right">42</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">105</td>
-<td align="right">696</td>
-<td align="right">46</td>
-<td align="right">252</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">162</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
+<td align="right">676</td>
+<td align="right">408</td>
+<td align="right">49</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">163</td>
+<td align="right">70</td>
 </tr>
 </tbody>
 </table>
@@ -416,13 +445,13 @@ clustered_dfMidDay &lt;- complete_dfMidDay %&gt;%
 <h3>SplitFailures AMPeak</h3>
 <pre class="r"><code>clustered_dfAMPeak %&gt;%
   ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_AMPeak)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="03_data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="splitfailures-midday" class="section level3">
 <h3>SplitFailures MidDay</h3>
 <pre class="r"><code>clustered_dfMidDay %&gt;%
   ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_MidDay)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-4-1.png" width="672" /> Now let’s make a table where the percent of cycles ending in split failure by cluster can be plotted.</p>
+<p><img src="03_data_files/figure-html/unnamed-chunk-6-1.png" width="672" /> Now let’s make a table where the percent of cycles ending in split failure by cluster can be plotted.</p>
 <pre class="r"><code>clustered_dfAMPeak %&gt;%
   group_by(scaled_cluster_AMPeak) %&gt;%
   summarize(
@@ -431,13 +460,13 @@ clustered_dfMidDay &lt;- complete_dfMidDay %&gt;%
     `&gt; 3` = sum(ifelse(SplitFailures &gt; 3, TRUE, FALSE)) / n()
   )</code></pre>
 <pre><code>## # A tibble: 5 x 4
-##   scaled_cluster_AMPeak   `0` `0- 3`   `&gt; 3`
-##                   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-## 1                     1 0.622  0.968 0.0323 
-## 2                     2 0.971  1     0      
-## 3                     3 0.92   1     0      
-## 4                     4 0.903  0.991 0.00943
-## 5                     5 0.885  0.988 0.0121</code></pre>
+##   scaled_cluster_AMPeak    `0` `0- 3` `&gt; 3`
+##                   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1                     1 0.920   1     0    
+## 2                     2 0.935   1     0    
+## 3                     3 0.0233  0.791 0.209
+## 4                     4 0.896   1     0    
+## 5                     5 0.797   1     0</code></pre>
 <pre class="r"><code>clustered_dfMidDay %&gt;%
   group_by(scaled_cluster_MidDay) %&gt;%
   summarize(
@@ -446,13 +475,13 @@ clustered_dfMidDay &lt;- complete_dfMidDay %&gt;%
     `&gt; 3` = sum(ifelse(SplitFailures &gt; 3, TRUE, FALSE)) / n()
   )</code></pre>
 <pre><code>## # A tibble: 5 x 4
-##   scaled_cluster_MidDay    `0` `0- 3`   `&gt; 3`
-##                   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-## 1                     1 0.796   0.991 0.00943
-## 2                     2 0.626   0.915 0.0847 
-## 3                     3 0.0405  0.341 0.659  
-## 4                     4 0.810   0.976 0.0238 
-## 5                     5 0.214   0.899 0.101</code></pre>
+##   scaled_cluster_MidDay     `0` `0- 3`    `&gt; 3`
+##                   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+## 1                     1 0.640    0.995 0.00506 
+## 2                     2 0.100    0.783 0.217   
+## 3                     3 0.812    0.976 0.0242  
+## 4                     4 0.00760  0.266 0.734   
+## 5                     5 0.815    0.999 0.000978</code></pre>
 <pre class="r"><code>clustered_dfAMPeak %&gt;%
   group_by(scaled_cluster_AMPeak) %&gt;%
   summarize(
@@ -461,35 +490,17 @@ clustered_dfMidDay &lt;- complete_dfMidDay %&gt;%
     `&gt; 4` = sum(ifelse(ArrivalsOnRed &gt; 4, TRUE, FALSE)) / n()
   )</code></pre>
 <pre><code>## # A tibble: 5 x 4
-##   scaled_cluster_AMPeak    `0`  `1- 3` `&gt; 4`
-##                   &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
-## 1                     1 0      0       1    
-## 2                     2 0.0369 0.0967  0.854
-## 3                     3 0      0.0114  0.943
-## 4                     4 0      0.00236 0.993
-## 5                     5 0      0       1</code></pre>
+##   scaled_cluster_AMPeak    `0` `1- 3` `&gt; 4`
+##                   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1                     1 0      0.0156 0.949
+## 2                     2 0.0547 0.125  0.840
+## 3                     3 0      0      1    
+## 4                     4 0      0      1    
+## 5                     5 0      0      1</code></pre>
 </div>
 </div>
 <div id="plots" class="section level2 tabset">
 <h2>Plots</h2>
-<div id="total-volume-vs-force-offs-ampeak" class="section level3">
-<h3>Total Volume vs Force-Offs AMPeak</h3>
-<pre class="r"><code># ggplot(clustered_dfAMPeak, aes(x = TotalVolume, y = ForceOffs, color = factor(scaled_cluster_AMPeak))) +
-#   geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
-#   geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
-#   geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
-#   geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
-#   geom_hline(yintercept = 0.5, col = &quot;blue&quot;)+
-#   geom_point(alpha = 0.3)
-ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
-  geom_point(alpha = 0.3) </code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-</div>
-<div id="total-volume-vs-force-offs-midday" class="section level3">
-<h3>Total Volume vs Force-Offs MidDay</h3>
-<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalCycles, color = factor(scaled_cluster_MidDay))) +
-  geom_point(alpha = 0.3) </code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>I wonder if we can code up some kind of discrimination function based on the clusters. Like, draw the blue line so it contains 80% of points in cluster 1.</p>
 <pre class="r"><code># blue_level &lt;- clustered_df %&gt;%
 #   filter(scaled_cluster == 1) %&gt;%
@@ -509,42 +520,38 @@ ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalC
 #   geom_point(alpha = 0.3) 
 # ggplot(clustered_df, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalCycles, color = factor(scaled_cluster))) +
 #   geom_point(alpha = 0.3)</code></pre>
+<div id="platoonratio-vs-percentaog-ampeak" class="section level3">
+<h3>PlatoonRatio VS PercentAOG AMPeak</h3>
+<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_AMPeak))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_point(alpha = 0.3)+
+  theme_bw()</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="totalvolume-vs-gapout-ampeak" class="section level3">
-<h3>TotalVolume VS Gapout AMPeak</h3>
-<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = GapOuts/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
+<div id="platoonratio-vs-percentaog-midday" class="section level3">
+<h3>PlatoonRatio VS PercentAOG MidDay</h3>
+<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_MidDay))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="totalvolume-vs-percentaog-ampeak" class="section level3">
+<h3>TotalVolume VS PercentAOG AMPeak</h3>
+<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_AMPeak))) +
   geom_point(alpha = 0.3)</code></pre>
 <p><img src="03_data_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div id="totalvolume-vs-gapout-midday" class="section level3">
-<h3>TotalVolume VS Gapout MidDay</h3>
-<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = GapOuts/TotalCycles, color = factor(scaled_cluster_MidDay))) +
+<div id="totalvolume-vs-percentaog-midday" class="section level3">
+<h3>TotalVolume VS PercentAOG MidDay</h3>
+<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_MidDay))) +
   geom_point(alpha = 0.3)</code></pre>
 <p><img src="03_data_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-</div>
-<div id="totalvolume-vs-arrivalongreen-ampeak" class="section level3">
-<h3>TotalVolume VS ArrivalOnGreen AMPeak</h3>
-<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = TotalVolume, y =((ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume), color = factor(scaled_cluster_AMPeak))) +
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-</div>
-<div id="totalvolume-vs-arrivalongreen-midday" class="section level3">
-<h3>TotalVolume VS ArrivalOnGreen MidDay</h3>
-<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y =((ArrivalsOnGreen+ArrivalsOnYellow)/TotalVolume)/TotalCycles, color = factor(scaled_cluster_MidDay))) +
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-</div>
-<div id="totalvolume-vs-arrivalonred-ampeak" class="section level3">
-<h3>TotalVolume VS ArrivalOnRed AMPeak</h3>
-<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y =(ArrivalsOnRed/TotalVolume)/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-</div>
-<div id="totalvolume-vs-arrivalonred-midday" class="section level3">
-<h3>TotalVolume VS ArrivalOnRed MidDay</h3>
-<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y =(ArrivalsOnRed/TotalVolume)/TotalCycles, color = factor(scaled_cluster_MidDay))) +
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="totalvolume-vs-splitfailures-ampeak" class="section level3">
 <h3>TotalVolume VS SplitFailures AMPeak</h3>
@@ -555,6 +562,26 @@ ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalC
 <h3>TotalVolume VS SplitFailures MidDay</h3>
 <pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay)))+   geom_point(alpha = 0.3)</code></pre>
 <p><img src="03_data_files/figure-html/vol-vs-red-MD-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-split-failures-ampeak" class="section level3">
+<h3>PlatoonRatio VS Split Failures AMPeak</h3>
+<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="platoonratio-vs-split-failures-ampeak-1" class="section level3">
+<h3>PlatoonRatio VS Split Failures AMPeak</h3>
+<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay))) +
+  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
+  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
+  geom_point(alpha = 0.3)</code></pre>
+<p><img src="03_data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="totalvolume-vs-totalredlightviolations-ampeak" class="section level3">
 <h3>TotalVolume VS TotalRedLightViolations AMPeak</h3>
@@ -567,26 +594,6 @@ ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = ForceOffs/TotalC
 <pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles, color = factor(scaled_cluster_MidDay))) +
   geom_point(alpha = 0.3)</code></pre>
 <p><img src="03_data_files/figure-html/vol-vs-redlight-MD-1.png" width="672" /></p>
-</div>
-<div id="platoonratio-vs-percentongreen-ampeak" class="section level3">
-<h3>PlatoonRatio VS PercentOnGreen AMPeak</h3>
-<pre class="r"><code>ggplot(clustered_dfAMPeak, aes(x = PlatoonRatio, y = percent_green, color = factor(scaled_cluster_AMPeak))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-</div>
-<div id="platoonratio-vs-vcratio-ampeak" class="section level3">
-<h3>PlatoonRatio VS VCRatio AMPeak</h3>
-<pre class="r"><code>ggplot(clustered_dfMidDay, aes(x = PlatoonRatio, y = VCRatio, color = factor(scaled_cluster_MidDay))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/400, intercept = -5, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/600, intercept = -10, col = &quot;red&quot;)+
-  # geom_abline(slope = 30/800, intercept = -15, col = &quot;red&quot;)+
-  geom_point(alpha = 0.3)</code></pre>
-<p><img src="03_data_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
 

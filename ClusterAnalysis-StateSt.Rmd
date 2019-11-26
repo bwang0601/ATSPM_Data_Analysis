@@ -7,20 +7,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
 ```{r}
 library(tidyverse)
 ```
 
-
-
 ```{r}
-dfAMPeck <- read_rds("data/dfAMPeck.rds")
-dfMidDay <- read_rds("data/dfMidDay.rds")
+dfAMPeak_StateSt <- read_rds("data/dfAMPeak_StateSt.rds")
+dfMidDay_StateSt <- read_rds("data/dfMidDay_StateSt.rds")
 ```
 
 ## K-means Cluster Analysis
@@ -28,48 +21,50 @@ dfMidDay <- read_rds("data/dfMidDay.rds")
 # Setup Cluster variables
 set.seed(3)
 
-cluster_variables <- c("TotalVolume", "SplitFailures", "ArrivalsOnGreen", "PlatoonRatio", "TotalRedLightViolations")
+cluster_variables_StateSt <- c("TotalVolume", "SplitFailures", "ArrivalsOnGreen", "PlatoonRatio", "TotalRedLightViolations", "PercentForceOffs")
 
 # Create Table without NA Volue
-complete_dfAMPeak <- na.omit(dfAMPeck)
+complete_dfAMPeak_StateSt <- na.omit(dfAMPeak_StateSt)
 
-complete_dfMidDay <- na.omit(dfMidDay)
+complete_dfMidDay_StateSt <- na.omit(dfMidDay_StateSt)
 
 # AMPeak Normal and Scaled clusters
-clusters_AMPeak <- complete_dfAMPeak %>%
-  select(cluster_variables) %>%
+clusters_AMPeak_StateSt <- complete_dfAMPeak_StateSt %>%
+  select(cluster_variables_StateSt) %>%
   kmeans(centers = 5)
 
-scaled_clusters_AMPeak <- complete_dfAMPeak %>%
-  select(cluster_variables) %>%
+scaled_clusters_AMPeak_StateSt <- complete_dfAMPeak_StateSt %>%
+  select(cluster_variables_StateSt) %>%
   mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
-  kmeans(centers = clusters_AMPeak$centers %>% scale() )
+  kmeans(centers = clusters_AMPeak_StateSt$centers %>% scale() )
 
-clustered_dfAMPeak <- complete_dfAMPeak %>%
-  mutate(cluster = clusters_AMPeak$cluster,
-         scaled_cluster_AMPeak = scaled_clusters_AMPeak$cluster)
+clustered_dfAMPeak_StateSt <- complete_dfAMPeak_StateSt %>%
+  mutate(cluster = clusters_AMPeak_StateSt$cluster,
+         scaled_cluster = scaled_clusters_AMPeak_StateSt$cluster) %>% 
+  write_rds("data/clustered_dfAMPeak_StateSt.rds")
 
 # MidDay Normal and Scaled clusters
-clusters_MidDay <- complete_dfMidDay %>%
-  select(cluster_variables) %>%
+clusters_MidDay_StateSt <- complete_dfMidDay_StateSt %>%
+  select(cluster_variables_StateSt) %>%
   kmeans(centers = 5)
 
-scaled_clusters_MidDay <- complete_dfMidDay %>%
-  select(cluster_variables) %>%
+scaled_clusters_MidDay_StateSt <- complete_dfMidDay_StateSt %>%
+  select(cluster_variables_StateSt) %>%
   mutate_all(scale) %>% # want to scale the data to make it normalized for kmeans
-  kmeans(centers = clusters_MidDay$centers %>% scale() )
+  kmeans(centers = clusters_MidDay_StateSt$centers %>% scale() )
 
-clustered_dfMidDay <- complete_dfMidDay %>%
-  mutate(cluster = clusters_MidDay$cluster,
-         scaled_cluster_MidDay = scaled_clusters_MidDay$cluster)
+clustered_dfMidDay_StateSt <- complete_dfMidDay_StateSt %>%
+  mutate(cluster = clusters_MidDay_StateSt$cluster,
+         scaled_cluster = scaled_clusters_MidDay_StateSt$cluster) %>% 
+  write_rds("data/clustered_dfMidDay_StateSt.rds")
 ```
 How different are the clusterings? Turns out they are very different!
 
 ```{r}
-clustered_dfAMPeak %>%
-  group_by(cluster, scaled_cluster_AMPeak) %>%
+clustered_dfAMPeak_StateSt %>%
+  group_by(cluster, scaled_cluster_AMPeak_StateSt) %>%
   tally() %>%
-  spread(scaled_cluster_AMPeak, n, fill = 0) %>%
+  spread(scaled_cluster_AMPeak_StateSt, n, fill = 0) %>%
   knitr::kable()
 ```
 
@@ -83,36 +78,36 @@ its cluster assignment alone.
 
 ### SplitFailures AMPeak
 ```{r}
-clustered_dfAMPeak %>%
-  ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_AMPeak)
+clustered_dfAMPeak_StateSt %>%
+  ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_AMPeak_StateSt)
 ```
 
 ### SplitFailures MidDay
 ```{r}
-clustered_dfMidDay %>%
-  ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_MidDay)
+clustered_dfMidDay_StateSt %>%
+  ggplot(aes(x = SplitFailures)) + geom_bar() + facet_wrap(~scaled_cluster_MidDay_StateSt)
 ```
 Now let's make a table where the percent of cycles ending in split failure by cluster can be plotted.
 
 ```{r}
-clustered_dfAMPeak %>%
-  group_by(scaled_cluster_AMPeak) %>%
+clustered_dfAMPeak_StateSt %>%
+  group_by(scaled_cluster_AMPeak_StateSt) %>%
   summarize(
     `0` = sum(ifelse(SplitFailures == 0, TRUE, FALSE)) / n(),
     `0- 3` = sum(ifelse(SplitFailures <= 3, TRUE, FALSE)) / n(),
     `> 3` = sum(ifelse(SplitFailures > 3, TRUE, FALSE)) / n()
   )
 
-clustered_dfMidDay %>%
-  group_by(scaled_cluster_MidDay) %>%
+clustered_dfMidDay_StateSt %>%
+  group_by(scaled_cluster_MidDay_StateSt) %>%
   summarize(
     `0` = sum(ifelse(SplitFailures == 0, TRUE, FALSE)) / n(),
     `0- 3` = sum(ifelse(SplitFailures <= 3, TRUE, FALSE)) / n(),
     `> 3` = sum(ifelse(SplitFailures > 3, TRUE, FALSE)) / n()
   )
 
-clustered_dfAMPeak %>%
-  group_by(scaled_cluster_AMPeak) %>%
+clustered_dfAMPeak_StateSt %>%
+  group_by(scaled_cluster_AMPeak_StateSt) %>%
   summarize(
     `0` = sum(ifelse(ArrivalsOnRed == 0, TRUE, FALSE)) / n(),
     `1- 3` = sum(ifelse(ArrivalsOnRed< 3, TRUE, FALSE)) / n(),
@@ -148,79 +143,99 @@ draw the blue line so it contains 80% of points in cluster 1.
 
 ### PlatoonRatio VS PercentAOG AMPeak
 ```{r}
-ggplot(clustered_dfAMPeak, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_AMPeak))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
-  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
-  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
-  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
+ggplot(clustered_dfAMPeak_StateSt, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_AMPeak_StateSt))) +
   geom_point(alpha = 0.3)+
+  xlim(0,2.5) + ylim(0.00, 1.00) +
   theme_bw()
 
 ```
 
 ### PlatoonRatio VS PercentAOG MidDay
 ```{r}
-ggplot(clustered_dfMidDay, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_MidDay))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
-  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
-  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
-  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
-  geom_point(alpha = 0.3)
+ggplot(clustered_dfMidDay_StateSt, aes(x = PlatoonRatio, y = PercentAOG, color = factor(scaled_cluster_MidDay_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0,2.5) + ylim(0.00, 1.00) +
+  theme_bw()
 
 ```
 
 ### TotalVolume VS PercentAOG AMPeak
 ```{r}
-ggplot(clustered_dfAMPeak, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_AMPeak))) +
-  geom_point(alpha = 0.3)
+ggplot(clustered_dfAMPeak_StateSt, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_AMPeak_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0,850) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### TotalVolume VS PercentAOG MidDay
 ```{r}
-ggplot(clustered_dfMidDay, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_MidDay))) +
-  geom_point(alpha = 0.3)
+ggplot(clustered_dfMidDay_StateSt, aes(x = TotalVolume, y =PercentAOG, color = factor(scaled_cluster_MidDay_StateSt))) +
+  geom_point(alpha = 0.3) + 
+  xlim(0,850) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### TotalVolume VS SplitFailures AMPeak
 ```{r vol-vs-red-AM}
-ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_AMPeak)))+   geom_point(alpha = 0.3)
+ggplot(clustered_dfAMPeak_StateSt, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_AMPeak_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0,125) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### TotalVolume VS SplitFailures MidDay
 ```{r vol-vs-red-MD}
-ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay)))+   geom_point(alpha = 0.3)
+ggplot(clustered_dfMidDay_StateSt, aes(x = TotalVolume/TotalCycles, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay_StateSt))) + 
+  geom_point(alpha = 0.3) +
+  xlim(0,125) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### PlatoonRatio VS Split Failures AMPeak
 ```{r}
-ggplot(clustered_dfAMPeak, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
-  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
-  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
-  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
-  geom_point(alpha = 0.3)
-
+ggplot(clustered_dfAMPeak_StateSt, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_AMPeak_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0,2.5) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### PlatoonRatio VS Split Failures AMPeak
 ```{r}
-ggplot(clustered_dfMidDay, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay))) +
-  # geom_abline(slope = 30/200, intercept = 0, col = "red")+
-  # geom_abline(slope = 30/400, intercept = -5, col = "red")+
-  # geom_abline(slope = 30/600, intercept = -10, col = "red")+
-  # geom_abline(slope = 30/800, intercept = -15, col = "red")+
-  geom_point(alpha = 0.3)
-
+ggplot(clustered_dfMidDay_StateSt, aes(x = PlatoonRatio, y = SplitFailures/TotalCycles, color = factor(scaled_cluster_MidDay_StateSt))) +
+  geom_point(alpha = 0.3) + 
+  xlim(0,2.5) + ylim(0.00, 1.00) +
+  theme_bw()
 ```
 
 ### TotalVolume VS TotalRedLightViolations AMPeak
 ```{r vol-vs-redlight-AM}
-ggplot(clustered_dfAMPeak, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles, color = factor(scaled_cluster_AMPeak))) +
-  geom_point(alpha = 0.3)
+ggplot(clustered_dfAMPeak_StateSt, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles, color = factor(scaled_cluster_AMPeak_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0, 125) + ylim(0, 5) +
+  theme_bw()
 ```
 
 ### TotalVolume VS TotalRedLightViolations MidDay
 ```{r vol-vs-redlight-MD}
-ggplot(clustered_dfMidDay, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles, color = factor(scaled_cluster_MidDay))) +
-  geom_point(alpha = 0.3)
+ggplot(clustered_dfMidDay_StateSt, aes(x = TotalVolume/TotalCycles, y = TotalRedLightViolations/TotalCycles, color = factor(scaled_cluster_MidDay_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0, 125) + ylim(0, 5) +
+  theme_bw()
 ```
+
+### ForceOffs VS Total Volume AMPeak
+```{r ForceOffs VS Total Volume-AM}
+ggplot(clustered_dfAMPeak_StateSt, aes(x = TotalVolume/TotalCycles, y = PercentForceOffs, color = factor(scaled_cluster_AMPeak_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0, 125) + ylim(0, 1.5) +
+  theme_bw()
+```
+
+### ForceOffs VS Total Volume MidDay
+```{r ForceOffs VS Total Volume-DM}
+ggplot(clustered_dfMidDay_StateSt, aes(x = TotalVolume/TotalCycles, y = PercentForceOffs, color = factor(scaled_cluster_MidDay_StateSt))) +
+  geom_point(alpha = 0.3) +
+  xlim(0, 125) + ylim(0, 1.5) +
+  theme_bw()
+```
+

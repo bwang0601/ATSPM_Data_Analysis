@@ -7,6 +7,15 @@ editor_options:
   chunk_output_type: console
 ---
 
+## Loading Libraries
+```{r Loading Libraries}
+## Load Libraries
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+```
+
 ## Group Statistics
 ```{r group Statistics}
 df6_FtUnion %>% group_by(BinStartTime) %>% tally()

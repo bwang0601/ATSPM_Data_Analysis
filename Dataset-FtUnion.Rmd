@@ -21,14 +21,14 @@ This scripte is to analyze the group of signals on FtUnion corridor
 There are total 10 signals and 20 approaches included on the FtUnion corrdior
 ```{r Signal Performance Measures Dataset}
 # Safety aggregation table: Red Light Actuation
-RA_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_RedActuation.xls") %>%
+RA_FtUnion <-read_xls("data/FtUnion/FtUnion_RedActuation.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )
 
 # Purdue Coordination Diagram aggregation table: ArrivalOnGreen, ArrivalOnRed, and Platoon Ratio
-PCD_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_PCD.xls") %>% 
+PCD_FtUnion <-read_xls("data/FtUnion/FtUnion_PCD.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId),
@@ -37,21 +37,21 @@ PCD_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_PCD.xls") %>%
   )
     
 # Split Failure aggregation table: Split Failures
-SF_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_SplitFail.xls") %>% 
+SF_FtUnion <-read_xls("data/FtUnion/FtUnion_SplitFail.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )  
 
 # Purdue Phase Termination Diagram aggregation table: Max out, Gap out, and Force Off
-PPT_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_PPT.xls") %>% 
+PPT_FtUnion <-read_xls("data/FtUnion/FtUnion_PPT.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )
 
 # Number of Cycles for FtUnion: Cycles Number 
-Cyc_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_Cycles.xls") %>%
+Cyc_FtUnion <-read_xls("data/FtUnion/FtUnion_Cycles.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
@@ -62,7 +62,7 @@ Cyc_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_Cycles.xls") %>%
 ## Combine Aggregation Tables using Left Join command
 ```{r Combine Dataset}
 # Create a Base Table: BinStartTime, SignalID, and ApproachID
-BaseTable_FtUnion <-read_xls("ATSPM/data/FtUnion/FtUnion_BaseTable.xls") %>%
+BaseTable_FtUnion <-read_xls("data/FtUnion/FtUnion_BaseTable.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId),
@@ -105,14 +105,15 @@ df6_FtUnion <- df5_FtUnion %>%
     PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
     PercentAOR = ArrivalsOnRed / TotalVolume,
     SFPerCycle = SplitFailures / TotalCycles,
-    RAPerCycle = TotalRedLightViolations / TotalCycles
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
   )
 
 dfAMPeak_FtUnion <- df6_FtUnion %>% 
   filter(df6_FtUnion$AMPeak == "TRUE") %>% 
-  write_rds("ATSPM/data/dfAMPeck.rds")
+  write_rds("data/dfAMPeak_FtUnion.rds")
 
 dfMidDay_FtUnion <- df6_FtUnion %>%
   filter(df6_FtUnion$AMPeak == "FALSE") %>% 
-  write_rds("ATSPM/data/dfMidDay.rds")
+  write_rds("data/dfMidDay_FtUnion.rds")
 ```

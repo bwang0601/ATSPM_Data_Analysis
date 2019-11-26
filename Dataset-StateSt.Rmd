@@ -21,14 +21,14 @@ This scripte is to analyze the group of signals on State Street corridor
 There are total 7 signals and 13 approaches (SignalId=6323 hase only SBT) included on the State Street corrdior
 ```{r Signal Performance Measures Dataset}
 # Safety aggregation table: Red Light Actuation
-RA_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_RedActuation.xls") %>%
+RA_StateSt <-read_xls("data/StateSt/StateSt_RedActuation.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )
 
 # Purdue Coordination Diagram aggregation table: ArrivalOnGreen, ArrivalOnRed, and Platoon Ratio
-PCD_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_PCD.xls") %>% 
+PCD_StateSt <-read_xls("data/StateSt/StateSt_PCD.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId),
@@ -37,21 +37,21 @@ PCD_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_PCD.xls") %>%
   )
     
 # Split Failure aggregation table: Split Failures
-SF_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_SplitFail.xls") %>% 
+SF_StateSt <-read_xls("data/StateSt/StateSt_SplitFail.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )  
 
 # Purdue Phase Termination Diagram aggregation table: Max out, Gap out, and Force Off
-PPT_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_PPT.xls") %>% 
+PPT_StateSt <-read_xls("data/StateSt/StateSt_PPT.xls") %>% 
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
   )
 
 # Number of Cycles for StateSt: Cycles Number 
-Cyc_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_Cycles.xls") %>%
+Cyc_StateSt <-read_xls("data/StateSt/StateSt_Cycles.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
@@ -62,7 +62,7 @@ Cyc_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_Cycles.xls") %>%
 ## Combine Aggregation Tables using Left Join command
 ```{r Combine Dataset}
 # Create a Base Table: BinStartTime, SignalID, and ApproachID
-BaseTable_StateSt <-read_xls("ATSPM/data/StateSt/StateSt_BaseTable.xls") %>%
+BaseTable_StateSt <-read_xls("data/StateSt/StateSt_BaseTable.xls") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId),
@@ -105,14 +105,15 @@ df6_StateSt <- df5_StateSt %>%
     PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
     PercentAOR = ArrivalsOnRed / TotalVolume,
     SFPerCycle = SplitFailures / TotalCycles,
-    RAPerCycle = TotalRedLightViolations / TotalCycles
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
   )
 
 dfAMPeak_StateSt <- df6_StateSt %>% 
   filter(df6_StateSt$AMPeak == "TRUE") %>% 
-  write_rds("ATSPM/data/dfAMPeck.rds")
+  write_rds("data/dfAMPeak_StateSt.rds")
 
 dfMidDay_StateSt <- df6_StateSt %>%
   filter(df6_StateSt$AMPeak == "FALSE") %>% 
-  write_rds("ATSPM/data/dfMidDay.rds")
+  write_rds("data/dfMidDay_StateSt.rds")
 ```

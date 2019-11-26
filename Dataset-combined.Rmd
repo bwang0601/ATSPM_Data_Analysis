@@ -1,0 +1,26 @@
+---
+title: "Dataset-Combined"
+author: "Bruce Wang"
+date: "11/21/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+```
+
+### combine all the dataset
+```{r}
+clustered_dfAMPeak_FtUnion <- read_rds("data/clustered_dfAMPeak_FtUnion.rds") %>% mutate(Corrdior = "FtUnion")
+clustered_dfMidDay_FtUnion <- read_rds("data/clustered_dfMidDay_FtUnion.rds") %>% mutate(Corrdior = "FtUnion")
+clustered_dfAMPeak_800N <- read_rds("data/clustered_dfAMPeak_800N.rds") %>% mutate(Corrdior = "800N")
+clustered_dfMidDay_800N <- read_rds("data/clustered_dfMidDay_800N.rds") %>% mutate(Corrdior = "800N")
+clustered_dfAMPeak_StateSt <- read_rds("data/clustered_dfAMPeak_StateSt.rds") %>% mutate(Corrdior = "StateSt")
+clustered_dfMidDay_StateSt <- read_rds("data/clustered_dfMidDay_StateSt.rds") %>% mutate(Corrdior = "StateSt")
+
+dfCorridors <- rbind(clustered_dfAMPeak_FtUnion, clustered_dfAMPeak_800N, clustered_dfAMPeak_StateSt, clustered_dfMidDay_FtUnion, clustered_dfMidDay_800N, clustered_dfMidDay_StateSt) %>%
+  write_rds("data/dfCorridors.rds")
+```
+

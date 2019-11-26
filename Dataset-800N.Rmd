@@ -105,14 +105,15 @@ df6_800N <- df5_800N %>%
     PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
     PercentAOR = ArrivalsOnRed / TotalVolume,
     SFPerCycle = SplitFailures / TotalCycles,
-    RAPerCycle = TotalRedLightViolations / TotalCycles
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
   )
 
 dfAMPeak_800N <- df6_800N %>% 
   filter(df6_800N$AMPeak == "TRUE") %>% 
-  write_rds("data/dfAMPeck.rds")
+  write_rds("data/dfAMPeak_800N.rds")
 
 dfMidDay_800N <- df6_800N %>%
   filter(df6_800N$AMPeak == "FALSE") %>% 
-  write_rds("data/dfMidDay.rds")
+  write_rds("data/dfMidDay_800N.rds")
 ```

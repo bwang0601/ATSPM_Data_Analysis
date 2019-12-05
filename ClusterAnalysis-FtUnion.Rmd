@@ -21,7 +21,7 @@ dfMidDay_FtUnion <- read_rds("data/dfMidDay_FtUnion.rds")
 # Setup Cluster variables
 set.seed(3)
 
-cluster_variables_FtUnion <- c("TotalVolume", "SplitFailures", "ArrivalsOnGreen", "PlatoonRatio", "TotalRedLightViolations", "PercentForceOffs")
+cluster_variables_FtUnion <- c("SplitFailures", "ArrivalsOnGreen", "PlatoonRatio", "TotalRedLightViolations", "PercentForceOffs")
 
 # Create Table without NA Volue
 complete_dfAMPeak_FtUnion <- na.omit(dfAMPeak_FtUnion) %>% 

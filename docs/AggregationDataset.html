@@ -10,9 +10,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Bruce Wang" />
 
+<meta name="date" content="2019-12-04" />
 
-<title>Evaluating the Quality of Signal Operations using Signal Performance Measures</title>
+<title>Aggregation Dataset</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -299,15 +301,170 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Evaluating the Quality of Signal Operations using Signal Performance Measures</h1>
+<h1 class="title toc-ignore">Aggregation Dataset</h1>
+<h4 class="author">Bruce Wang</h4>
+<h4 class="date">12/04/2019</h4>
 
 </div>
 
 
-<div id="this-wedsite-is-to-introduce-the-steps-of-atspms-data-analysis-and-evaluation" class="section level3">
-<h3>This wedsite is to introduce the steps of ATSPMs data analysis and evaluation</h3>
-<p>More about ATSPM: “ATSPMs use detector data to show actual and historical performance of signalized intersections. They use high-resolution data capability added to existing infrastructure to evaluate the quality of progression of traffic along a corridor. In Utah, the measured data alert UDOT of detector malfunctions and provide insight into vehicle delay from volume, speed, and travel time detection. UDOT uses the data to optimize mobility and manage traffic signal timing and maintenance to reduce congestion, save fuel costs, and improve safety (UDOT, 2019b).”</p>
-<p>The purpose of this research is to evaluate the real-time data collected through the ATSPM database and determine which performance measures can be used for evaluation and to then identify thresholds for each performance measure chosen. The following webpages explain the source of data used, the performance measures chosen, and the evaluation methods picked.</p>
+<div id="loading-libraries" class="section level3">
+<h3>Loading Libraries</h3>
+<pre class="r"><code>## Load Libraries
+library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages -------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.2.1     v purrr   0.3.2
+## v tibble  2.1.3     v dplyr   0.8.3
+## v tidyr   0.8.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.4.0</code></pre>
+<pre><code>## -- Conflicts ----------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(readxl)
+library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>library(ggplot2)</code></pre>
+</div>
+<div id="creating-an-analysis-dataset" class="section level3">
+<h3>Creating an Analysis Dataset</h3>
+<div id="this-scripte-is-to-create-the-group-dataset-of-signals-on-ftunion-corridor-800-n-and-state-street" class="section level4">
+<h4>This scripte is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street</h4>
+</div>
+<div id="there-are-total-10-signals-and-20-approaches-included-on-the-ftunion-corrdior" class="section level4">
+<h4>There are total 10 signals and 20 approaches included on the FtUnion corrdior</h4>
+</div>
+<div id="there-are-total-5-signals-and-10-approaches-included-on-the-800n-corrdior" class="section level4">
+<h4>There are total 5 signals and 10 approaches included on the 800N corrdior</h4>
+</div>
+<div id="there-are-total-7-signals-and-13-approaches-signalid-6323-hase-only-sbt-included-on-the-state-street-corrdior" class="section level4">
+<h4>There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior</h4>
+<pre class="r"><code># Safety aggregation table: Red Light Actuation
+RA_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_RedActuation.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+RA_800N &lt;-read_xls(&quot;data/800N/800N_RedActuation.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+RA_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_RedActuation.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+# Purdue Coordination Diagram aggregation table: ArrivalOnGreen, ArrivalOnRed, and Platoon Ratio
+PCD_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_PCD.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    TotalVolume = as.numeric(TotalVolume),
+    PlatoonRatio = as.numeric(PlatoonRatio)
+  )
+
+PCD_800N &lt;-read_xls(&quot;data/800N/800N_PCD.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    TotalVolume = as.numeric(TotalVolume),
+    PlatoonRatio = as.numeric(PlatoonRatio)
+  )
+
+PCD_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_PCD.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    TotalVolume = as.numeric(TotalVolume),
+    PlatoonRatio = as.numeric(PlatoonRatio)
+  )
+
+# Split Failure aggregation table: Split Failures
+SF_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_SplitFail.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )  
+
+SF_800N &lt;-read_xls(&quot;data/800N/800N_SplitFail.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )  
+
+SF_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_SplitFail.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )  
+
+# Purdue Phase Termination Diagram aggregation table: Max out, Gap out, and Force Off
+PPT_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_PPT.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+PPT_800N &lt;-read_xls(&quot;data/800N/800N_PPT.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+PPT_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_PPT.xls&quot;) %&gt;% 
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+#  Cycles Number: Number of Cycles
+Cyc_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_Cycles.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+Cyc_800N &lt;-read_xls(&quot;data/800N/800N_Cycles.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+Cyc_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_Cycles.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId)
+  )
+
+# BaseTable for Corridors: BinStartTime, SignalID, and ApproachID
+BaseTable_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_BaseTable.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    ApproachId = as.numeric(ApproachId),
+  )
+
+BaseTable_800N &lt;-read_xls(&quot;data/800N/800N_BaseTable.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    ApproachId = as.numeric(ApproachId),
+  )
+
+BaseTable_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_BaseTable.xls&quot;) %&gt;%
+  mutate(
+    BinStartTime = as_datetime(BinStartTime),
+    SignalId = as.numeric(SignalId),
+    ApproachId = as.numeric(ApproachId),
+  )</code></pre>
+</div>
 </div>
 
 

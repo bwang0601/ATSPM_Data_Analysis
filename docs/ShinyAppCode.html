@@ -10,9 +10,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Bruce Wang" />
 
 
-<title>Evaluating the Quality of Signal Operations using Signal Performance Measures</title>
+<title>Shiny App</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -299,15 +300,180 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Evaluating the Quality of Signal Operations using Signal Performance Measures</h1>
+<h1 class="title toc-ignore">Shiny App</h1>
+<h4 class="author">Bruce Wang</h4>
+<h4 class="date">12/4/2019</h4>
 
 </div>
 
 
-<div id="this-wedsite-is-to-introduce-the-steps-of-atspms-data-analysis-and-evaluation" class="section level3">
-<h3>This wedsite is to introduce the steps of ATSPMs data analysis and evaluation</h3>
-<p>More about ATSPM: “ATSPMs use detector data to show actual and historical performance of signalized intersections. They use high-resolution data capability added to existing infrastructure to evaluate the quality of progression of traffic along a corridor. In Utah, the measured data alert UDOT of detector malfunctions and provide insight into vehicle delay from volume, speed, and travel time detection. UDOT uses the data to optimize mobility and manage traffic signal timing and maintenance to reduce congestion, save fuel costs, and improve safety (UDOT, 2019b).”</p>
-<p>The purpose of this research is to evaluate the real-time data collected through the ATSPM database and determine which performance measures can be used for evaluation and to then identify thresholds for each performance measure chosen. The following webpages explain the source of data used, the performance measures chosen, and the evaluation methods picked.</p>
+<div id="this-is-the-shiny-app-code-record" class="section level3">
+<h3>This is the Shiny App code record</h3>
+<pre class="r"><code># library(shiny)
+# library(tidyverse)
+# library(rsconnect)
+
+# # Setup Cluster variables
+# set.seed(3)
+# cluster_variables &lt;- c(&quot;SFPerCycle&quot;, &quot;PercentAOG&quot;, &quot;PlatoonRatio&quot;, 
+#                        &quot;TotalRedLightViolations&quot;, &quot;PercentForceOffs&quot;)
+# 
+# # Read corridor dataset
+# df &lt;- read_rds(&quot;dfCorridors_NA.rds&quot;) %&gt;%
+#     select(BinStartTime, SignalId, ApproachId, TotalVolume, SFPerCycle,
+#            PercentAOG, PlatoonRatio, TotalRedLightViolations, PercentForceOffs,
+#            AMPeak, Corrdior) %&gt;%
+#     # change ridiculous data points to NA
+#     mutate(
+#         PercentForceOffs = ifelse(PercentForceOffs &gt; 1.3, NA, PercentForceOffs),
+#         PlatoonRatio = ifelse(PlatoonRatio &gt; 10, NA, PlatoonRatio)
+#     ) %&gt;%
+#     
+#     # initialize cluster variable
+#     mutate(cluster = NA)
+# 
+# # get complete data for clustering
+# clusters &lt;- df %&gt;%
+#     select(cluster_variables) %&gt;%
+#     na.omit() %&gt;%
+#     mutate_all(scale) %&gt;%
+#     kmeans(center = 5)
+# 
+# # The output of kmeans corresponds to the elements of the object passed as
+# # argument x. In your case, you omit the NA elements, and so $cluster indicates
+# # the cluster that each element of na.omit(x) belongs to.
+# df$cluster[complete.cases(df %&gt;% select(cluster_variables))] &lt;- clusters$cluster
+# 
+# optional_xaxis &lt;- c(cluster_variables, &quot;TotalVolume&quot;)
+# 
+# 
+# # read threshold dataframe
+# thresholds &lt;- read_csv(&quot;threshold_definitions.csv&quot;)
+# 
+# 
+# # Define UI for application that draws a histogram
+# ui &lt;- fluidPage(
+# 
+#     # Application title
+#     titlePanel(&quot;ATSPM Data Plot&quot;),
+# 
+#     # Sidebar with a slider input for number of bins 
+#     sidebarLayout(
+#         sidebarPanel(
+#             
+#             # x - axis selector
+#             shiny::selectInput(&quot;Xvar&quot;, &quot;X-axis&quot;, choices = optional_xaxis, multiple = F),
+#             
+#             # y - axis selector
+#             shiny::selectInput(&quot;Yvar&quot;, &quot;Y-axis&quot;, choices = optional_xaxis, multiple = F),
+#             
+#             # corridor filter
+#             checkboxGroupInput(&quot;Cor&quot;, &quot;Select a Corridor:&quot;,
+#                                c(unique(as.character(df$Corrdior))), 
+#                                inline = TRUE),
+#             shiny::checkboxInput(&quot;cor_facet&quot;, label = &quot;Facet corridor?&quot;, value = FALSE),
+#             
+#             # Time of day filter
+#             checkboxGroupInput(&quot;tod&quot;, &quot;Select a Time of Day:&quot;,
+#                                c(&quot;AMPeak&quot;,
+#                                  &quot;MidDay&quot;),
+#                                inline = TRUE),
+#             shiny::checkboxInput(&quot;tod_facet&quot;, label = &quot;Facet time of day?&quot;, value = FALSE),
+#             
+#             # Signals filter
+#             shiny::selectInput(&quot;Intersection&quot;, &quot;Select a SignalId&quot;,
+#                                choices = c(&quot;All&quot;, c(unique(df$SignalId)))),
+#             
+#             # Date range filter
+#             dateRangeInput(&quot;daterange1&quot;, &quot;Date range:&quot;,
+#                            start = &quot;2018-03-05&quot;,
+#                            end   = &quot;2018-10-25&quot;)
+# 
+#         ),
+# 
+#         # Show a plot of the generated distribution
+#         mainPanel(
+#            plotOutput(&quot;distPlot&quot;)
+#         )
+#     )
+# )
+# 
+# # Define server logic required to draw a histogram
+# server &lt;- function(input, output) {
+#     
+#     plotdata &lt;- reactive({
+#         pd &lt;- tibble(
+#             x = df[[input$Xvar]],
+#             y = df[[input$Yvar]],
+#             cluster = df[[&quot;cluster&quot;]],
+#             Corridor = df$Corrdior,
+#             TOD = ifelse(df$AMPeak, &quot;AMPeak&quot;, &quot;MidDay&quot;),
+#             Date = df$BinStartTime,
+#             SignalId = df$SignalId
+#         ) 
+#         
+#         if (!is.null(input$Cor)){
+#           pd &lt;- pd %&gt;% filter(Corridor %in% input$Cor)
+#         } 
+#         
+#         if (!is.null(input$tod)){
+#           pd &lt;- pd %&gt;% filter(TOD %in% input$tod)
+#         }
+#         
+#         if (input$Intersection != &quot;All&quot;){
+#           pd &lt;- pd %&gt;% filter(SignalId %in% input$Intersection)    
+#         }
+#         
+#         if (!is.null(input$daterange1)){
+#           pd &lt;- pd %&gt;% filter(Date &gt;= input$daterange1[1], Date &lt;= input$daterange1[2])
+#         }
+#         
+#         pd
+#     })
+#     
+#     threshold_lines &lt;- reactive({
+#         thresholds %&gt;%
+#             filter(variable %in% input$Xvar)
+#         
+#     })
+#    
+#     output$distPlot &lt;- renderPlot({
+#         
+#         pd &lt;- plotdata()
+#         
+#         if(input$Xvar == input$Yvar) {
+#             p &lt;- ggplot(pd, aes(x = x, fill = factor(cluster))) +
+#                 geom_histogram(aes(y = stat(width*density))) + 
+#                 geom_vline(data = threshold_lines(), 
+#                            aes(xintercept = level, color = factor(id)), 
+#                            lty = &quot;dashed&quot;) +
+#                 xlab(input$Xvar) + ylab(&quot;Percentage&quot;) +
+#                 scale_fill_discrete(&quot;Assigned Cluster&quot;) + 
+#                 scale_color_brewer(&quot;Threshhold&quot;, palette = &quot;Dark2&quot;) +
+#                 scale_y_continuous(labels = scales::percent_format())
+#         } else {
+#             p &lt;- ggplot(pd, aes(x = x, y = y, color = factor(cluster))) +
+#                 geom_point() + xlab(input$Xvar) + ylab(input$Yvar)  +
+#                 scale_color_discrete(&quot;Assigned Cluster&quot;)
+#         }
+# 
+#         if(input$cor_facet &amp; input$tod_facet) {
+#             p &lt;- p + facet_grid(TOD~Corridor)
+#         } else if(input$cor_facet) {
+#           p &lt;- p + facet_wrap(~Corridor)
+#         } else if(input$tod_facet) {
+#           p &lt;- p + facet_wrap(~TOD)
+#         }
+#         
+#         p +  theme_bw() 
+#     })
+# }
+# 
+# # Run the application 
+# shinyApp(ui = ui, server = server)</code></pre>
+</div>
+<div id="shinyapp-link" class="section level3">
+<h3><a href="https://atspmevaluation.shinyapps.io/ATSPM-Shiny/">ShinyApp Link</a></h3>
 </div>
 
 

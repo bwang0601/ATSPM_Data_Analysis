@@ -10,9 +10,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Bruce Wang" />
 
+<meta name="date" content="2019-12-04" />
 
-<title>Evaluating the Quality of Signal Operations using Signal Performance Measures</title>
+<title>Combine Aggregation Tables</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -299,15 +301,158 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Evaluating the Quality of Signal Operations using Signal Performance Measures</h1>
+<h1 class="title toc-ignore">Combine Aggregation Tables</h1>
+<h4 class="author">Bruce Wang</h4>
+<h4 class="date">12/04/2019</h4>
 
 </div>
 
 
-<div id="this-wedsite-is-to-introduce-the-steps-of-atspms-data-analysis-and-evaluation" class="section level3">
-<h3>This wedsite is to introduce the steps of ATSPMs data analysis and evaluation</h3>
-<p>More about ATSPM: “ATSPMs use detector data to show actual and historical performance of signalized intersections. They use high-resolution data capability added to existing infrastructure to evaluate the quality of progression of traffic along a corridor. In Utah, the measured data alert UDOT of detector malfunctions and provide insight into vehicle delay from volume, speed, and travel time detection. UDOT uses the data to optimize mobility and manage traffic signal timing and maintenance to reduce congestion, save fuel costs, and improve safety (UDOT, 2019b).”</p>
-<p>The purpose of this research is to evaluate the real-time data collected through the ATSPM database and determine which performance measures can be used for evaluation and to then identify thresholds for each performance measure chosen. The following webpages explain the source of data used, the performance measures chosen, and the evaluation methods picked.</p>
+<div id="combine-aggregation-tables-using-left-join-command" class="section level2 tabset">
+<h2>Combine Aggregation Tables Using Left Join Command</h2>
+<div id="ftunion" class="section level3">
+<h3>FtUnion</h3>
+<pre class="r"><code># Join all the aggregation tables into a signle analysis dataset
+df1_FtUnion &lt;- left_join(
+  BaseTable_FtUnion, PCD_FtUnion %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df2_FtUnion &lt;- left_join(
+  df1_FtUnion, SF_FtUnion %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df3_FtUnion &lt;- left_join(
+  df2_FtUnion, PPT_FtUnion, 
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df4_FtUnion &lt;- left_join(
+  df3_FtUnion, RA_FtUnion %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df5_FtUnion &lt;- left_join(
+  df4_FtUnion, Cyc_FtUnion,
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df6_FtUnion &lt;- df5_FtUnion %&gt;% 
+  mutate(
+    TotalTime = as.numeric(TotalTime),
+    TotalGreenTime = as.numeric(TotalGreenTime),
+    TotalYellowTime = as.numeric(TotalYellowTime),
+    TotalRedTime = as.numeric(TotalRedTime),
+    PercentGreen = as.numeric(PercentGreen)
+  ) %&gt;%
+  mutate(
+    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
+  )  %&gt;%
+  mutate(
+    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
+    PercentAOR = ArrivalsOnRed / TotalVolume,
+    SFPerCycle = SplitFailures / TotalCycles,
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
+  )
+
+dfFtUnion &lt;- df6_FtUnion %&gt;%
+  write_rds(&quot;data/dfFtUnion.rds&quot;)</code></pre>
+</div>
+<div id="n" class="section level3">
+<h3>800N</h3>
+<pre class="r"><code># Join all the aggregation tables into a signle analysis dataset
+df1_800N &lt;- left_join(
+  BaseTable_800N, PCD_800N %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df2_800N &lt;- left_join(
+  df1_800N, SF_800N %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df3_800N &lt;- left_join(
+  df2_800N, PPT_800N, 
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df4_800N &lt;- left_join(
+  df3_800N, RA_800N %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df5_800N &lt;- left_join(
+  df4_800N, Cyc_800N,
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df6_800N &lt;- df5_800N %&gt;% 
+  mutate(
+    TotalTime = as.numeric(TotalTime),
+    TotalGreenTime = as.numeric(TotalGreenTime),
+    TotalYellowTime = as.numeric(TotalYellowTime),
+    TotalRedTime = as.numeric(TotalRedTime),
+    PercentGreen = as.numeric(PercentGreen)
+  ) %&gt;%
+  mutate(
+    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
+  )  %&gt;%
+  mutate(
+    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
+    PercentAOR = ArrivalsOnRed / TotalVolume,
+    SFPerCycle = SplitFailures / TotalCycles,
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
+  )
+
+df800N &lt;- df6_800N %&gt;%
+  write_rds(&quot;data/df800N.rds&quot;)</code></pre>
+</div>
+<div id="state-street" class="section level3">
+<h3>State Street</h3>
+<pre class="r"><code>df1_StateSt &lt;- left_join(
+  BaseTable_StateSt, PCD_StateSt %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df2_StateSt &lt;- left_join(
+  df1_StateSt, SF_StateSt %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df3_StateSt &lt;- left_join(
+  df2_StateSt, PPT_StateSt, 
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df4_StateSt &lt;- left_join(
+  df3_StateSt, RA_StateSt %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df5_StateSt &lt;- left_join(
+  df4_StateSt, Cyc_StateSt,
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
+
+df6_StateSt &lt;- df5_StateSt %&gt;% 
+  mutate(
+    TotalTime = as.numeric(TotalTime),
+    TotalGreenTime = as.numeric(TotalGreenTime),
+    TotalYellowTime = as.numeric(TotalYellowTime),
+    TotalRedTime = as.numeric(TotalRedTime),
+    PercentGreen = as.numeric(PercentGreen)
+  ) %&gt;%
+  mutate(
+    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
+  )  %&gt;%
+  mutate(
+    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
+    PercentAOR = ArrivalsOnRed / TotalVolume,
+    SFPerCycle = SplitFailures / TotalCycles,
+    RAPerCycle = TotalRedLightViolations / TotalCycles,
+    PercentForceOffs = ForceOffs / TotalCycles
+  )
+
+dfStateSt &lt;- df6_StateSt %&gt;%
+  write_rds(&quot;data/dfStateSt.rds&quot;)</code></pre>
+</div>
+<div id="combine-all-dataset" class="section level3">
+<h3>Combine all DataSet</h3>
+<pre class="r"><code>dfFtUnion &lt;- read_rds(&quot;data/dfFtUnion.rds&quot;) %&gt;% mutate(Corrdior = &quot;FtUnion&quot;)
+df800N &lt;- read_rds(&quot;data/df800N.rds&quot;) %&gt;% mutate(Corrdior = &quot;800N&quot;)
+dfStateSt &lt;- read_rds(&quot;data/dfStateSt.rds&quot;) %&gt;% mutate(Corrdior = &quot;StateSt&quot;)
+
+dfCorridors_NA &lt;- rbind(dfFtUnion, df800N, dfStateSt) %&gt;%
+  write_rds(&quot;data/dfCorridors_NA.rds&quot;)</code></pre>
+</div>
 </div>
 
 

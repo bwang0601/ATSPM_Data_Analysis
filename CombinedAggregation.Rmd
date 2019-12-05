@@ -154,3 +154,14 @@ dfStateSt <- read_rds("data/dfStateSt.rds") %>% mutate(Corrdior = "StateSt")
 dfCorridors_NA <- rbind(dfFtUnion, df800N, dfStateSt) %>%
   write_rds("data/dfCorridors_NA.rds")
 ```
+
+## Methodology
+### K-mean Cluster Analysis
+
+ - Cluster analysis can help us group and weight all the variables for threshold values development. 
+ - Clustering is a broad set of techniques for finding subgroups of observations within a data set. 
+ - When we cluster observations, we want observations in the same group to be similar and observations in different groups to be dissimilar. 
+ - It is an unsupervised method, which implies that it seeks to find relationships between the n observations without being trained by a response variable.
+ - Clustering allows us to identify which observations are alike, and potentially categorize them therein. 
+
+ ![Example of Cluster Analysis](img/Picture3.png)

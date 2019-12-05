@@ -329,19 +329,68 @@ library(lubridate)</code></pre>
 ##     date</code></pre>
 <pre class="r"><code>library(ggplot2)</code></pre>
 </div>
+<div id="data-collection" class="section level3">
+<h3>Data Collection</h3>
+<div id="sample-network-selected" class="section level4">
+<h4>Sample Network Selected</h4>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Signal ID</th>
+<th align="left">Cross-Street Name</th>
+<th align="left">Signal ID</th>
+<th align="left">Cross-Street Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">4029</td>
+<td align="left">700 East</td>
+<td align="left">4090</td>
+<td align="left">2000 East</td>
+</tr>
+<tr class="even">
+<td align="left">7207</td>
+<td align="left">900 East</td>
+<td align="left">4165</td>
+<td align="left">2200 East</td>
+</tr>
+<tr class="odd">
+<td align="left">4301</td>
+<td align="left">1090 East</td>
+<td align="left">4704</td>
+<td align="left">2300 East</td>
+</tr>
+<tr class="even">
+<td align="left">4024</td>
+<td align="left">1300 East</td>
+<td align="left">4705</td>
+<td align="left">2700 East</td>
+</tr>
+<tr class="odd">
+<td align="left">4388</td>
+<td align="left">1435 East</td>
+<td align="left">4706</td>
+<td align="left">3000 East</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="study-time-period-selected" class="section level4">
+<h4>Study Time Period Selected</h4>
+<p>First, we planned to look at the split fail performance measure. A large number of split failures typically occur during the PM peak due to a large number of cars on the road. As a result, we decided to look at the AM peak time period. If many split failures occur during this time period, it is more likely that the signal is not performing well. We also chose to look at an afternoon time period as a “control” time period. The chosen time periods were from 7 AM to 9 AM and 12 PM to 2 PM on Tuesdays and Wednesdays in March, July, and October in 2018. We chose these dates in order to determine if signal performance has changed over time. By looking at Tuesdays and Wednesdays, two days that are very similar in regard to traffic, we will be able to identify if there are changes over time to performance measures as we look at the change over a few months. Figure 2 shows the selected days for the chosen signals on Fort Union Boulevard.</p>
+<div class="figure">
+<img src="img/Picture2.PNG" alt="Example data plot" />
+<p class="caption">Example data plot</p>
+</div>
+</div>
+</div>
 <div id="creating-an-analysis-dataset" class="section level3">
 <h3>Creating an Analysis Dataset</h3>
-<div id="this-scripte-is-to-create-the-group-dataset-of-signals-on-ftunion-corridor-800-n-and-state-street" class="section level4">
-<h4>This scripte is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street</h4>
-</div>
-<div id="there-are-total-10-signals-and-20-approaches-included-on-the-ftunion-corrdior" class="section level4">
-<h4>There are total 10 signals and 20 approaches included on the FtUnion corrdior</h4>
-</div>
-<div id="there-are-total-5-signals-and-10-approaches-included-on-the-800n-corrdior" class="section level4">
-<h4>There are total 5 signals and 10 approaches included on the 800N corrdior</h4>
-</div>
-<div id="there-are-total-7-signals-and-13-approaches-signalid-6323-hase-only-sbt-included-on-the-state-street-corrdior" class="section level4">
-<h4>There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior</h4>
+<p>This script is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street</p>
+<p>There are total 10 signals and 20 approaches included on the FtUnion corrdior</p>
+<p>There are total 5 signals and 10 approaches included on the 800N corrdior</p>
+<p>There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior</p>
 <pre class="r"><code># Safety aggregation table: Red Light Actuation
 RA_FtUnion &lt;-read_xls(&quot;data/FtUnion/FtUnion_RedActuation.xls&quot;) %&gt;%
   mutate(
@@ -464,7 +513,6 @@ BaseTable_StateSt &lt;-read_xls(&quot;data/StateSt/StateSt_BaseTable.xls&quot;) 
     SignalId = as.numeric(SignalId),
     ApproachId = as.numeric(ApproachId),
   )</code></pre>
-</div>
 </div>
 
 

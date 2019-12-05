@@ -16,11 +16,30 @@ library(lubridate)
 library(ggplot2)
 ```
 
+### Data Collection
+
+#### Sample Network Selected
+|Signal ID|Cross-Street Name|Signal ID|Cross-Street Name|
+|:--------|:----------------|:--------|:----------------|
+|4029     |700 East         |4090     |2000 East        |
+|7207     |900 East         |4165     |2200 East        |
+|4301     |1090 East        |4704     |2300 East        |
+|4024     |1300 East        |4705     |2700 East        |
+|4388     |1435 East        |4706     |3000 East        |
+
+#### Study Time Period Selected
+First, we planned to look at the split fail performance measure. A large number of split failures typically occur during the PM peak due to a large number of cars on the road. As a result, we decided to look at the AM peak time period. If many split failures occur during this time period, it is more likely that the signal is not performing well. We also chose to look at an afternoon time period as a “control” time period. The chosen time periods were from 7 AM to 9 AM and 12 PM to 2 PM on Tuesdays and Wednesdays in March, July, and October in 2018. We chose these dates in order to determine if signal performance has changed over time. By looking at Tuesdays and Wednesdays, two days that are very similar in regard to traffic, we will be able to identify if there are changes over time to performance measures as we look at the change over a few months. Figure 2 shows the selected days for the chosen signals on Fort Union Boulevard. 
+
+  ![Example data plot](img/Picture2.png)
+
 ### Creating an Analysis Dataset
-#### This scripte is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street 
-#### There are total 10 signals and 20 approaches included on the FtUnion corrdior
-#### There are total 5 signals and 10 approaches included on the 800N corrdior
-#### There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior
+This script is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street
+
+There are total 10 signals and 20 approaches included on the FtUnion corrdior
+
+There are total 5 signals and 10 approaches included on the 800N corrdior
+
+There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior
 ```{r Signal Performance Measures Dataset}
 # Safety aggregation table: Red Light Actuation
 RA_FtUnion <-read_xls("data/FtUnion/FtUnion_RedActuation.xls") %>%

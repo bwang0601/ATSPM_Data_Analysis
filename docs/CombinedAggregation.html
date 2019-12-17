@@ -308,32 +308,58 @@ $(document).ready(function () {
 </div>
 
 
-<div id="combine-aggregation-tables-using-left-join-command" class="section level2 tabset">
-<h2>Combine Aggregation Tables Using Left Join Command</h2>
-<div id="ftunion" class="section level3">
-<h3>FtUnion</h3>
-<pre class="r"><code># Join all the aggregation tables into a signle analysis dataset
-df1_FtUnion &lt;- left_join(
-  BaseTable_FtUnion, PCD_FtUnion %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df2_FtUnion &lt;- left_join(
-  df1_FtUnion, SF_FtUnion %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df3_FtUnion &lt;- left_join(
-  df2_FtUnion, PPT_FtUnion, 
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df4_FtUnion &lt;- left_join(
-  df3_FtUnion, RA_FtUnion %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df5_FtUnion &lt;- left_join(
-  df4_FtUnion, Cyc_FtUnion,
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df6_FtUnion &lt;- df5_FtUnion %&gt;% 
+<div id="loading-libraries" class="section level3">
+<h3>Loading Libraries</h3>
+<pre class="r"><code>## Load Libraries
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)</code></pre>
+</div>
+<div id="loading-aggregation-tables" class="section level3">
+<h3>Loading Aggregation Tables</h3>
+<pre class="r"><code>BaseTable &lt;- read_rds(&quot;BaseTable.rds&quot;)
+PCD &lt;- read_rds(&quot;PCD.rds&quot;)
+SF &lt;- read_rds(&quot;SF.rds&quot;)
+PPT &lt;- read_rds(&quot;PPT.rds&quot;)
+RA &lt;- read_rds(&quot;RA.rds&quot;)
+Cyc &lt;- read_rds(&quot;Cyc.rds&quot;)</code></pre>
+</div>
+<div id="combine-aggregation-tables-using-left-join-command" class="section level3">
+<h3>Combine Aggregation Tables Using Left Join Command</h3>
+<div id="combine-basetable-and-pcd-table-into-df1" class="section level4">
+<h4>Combine Basetable and PCD table into df1</h4>
+<pre class="r"><code>df1 &lt;- left_join(
+  BaseTable, PCD %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))</code></pre>
+</div>
+<div id="combine-df1-and-sf-table-into-df2" class="section level4">
+<h4>Combine df1 and SF table into df2</h4>
+<pre class="r"><code>df2 &lt;- left_join(
+  df1, SF %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))</code></pre>
+</div>
+<div id="combine-df2-and-ppt-table-into-df3" class="section level4">
+<h4>Combine df2 and PPT table into df3</h4>
+<pre class="r"><code>df3 &lt;- left_join(
+  df2, PPT, 
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))</code></pre>
+</div>
+<div id="combine-df3-and-ra-table-into-df4" class="section level4">
+<h4>Combine df3 and RA table into df4</h4>
+<pre class="r"><code>df4 &lt;- left_join(
+  df3, RA %&gt;% select(-IsProtectedPhase),
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))</code></pre>
+</div>
+<div id="combine-df4-and-cyc-table-into-df5" class="section level4">
+<h4>Combine df4 and Cyc table into df5</h4>
+<pre class="r"><code>df5 &lt;- left_join(
+  df4, Cyc,
+  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))</code></pre>
+</div>
+<div id="mutate-several-columns-as-numeric-create-ampeak-percentaog-percentaor-sfpercycle-rapercycle-and-percentforceoffs-columns-for-k-means-cluster-analysis" class="section level4">
+<h4>Mutate Several columns as numeric, Create AMpeak, PercentAOG, PercentAOR, SFPerCycle, RAPerCycle, and PercentForceOffs columns for K-means cluster analysis</h4>
+<pre class="r"><code>df6 &lt;- df5 %&gt;% 
   mutate(
     TotalTime = as.numeric(TotalTime),
     TotalGreenTime = as.numeric(TotalGreenTime),
@@ -352,112 +378,14 @@ df6_FtUnion &lt;- df5_FtUnion %&gt;%
     PercentForceOffs = ForceOffs / TotalCycles
   )
 
-dfFtUnion &lt;- df6_FtUnion %&gt;%
-  write_rds(&quot;data/dfFtUnion.rds&quot;)</code></pre>
-</div>
-<div id="n" class="section level3">
-<h3>800N</h3>
-<pre class="r"><code># Join all the aggregation tables into a signle analysis dataset
-df1_800N &lt;- left_join(
-  BaseTable_800N, PCD_800N %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df2_800N &lt;- left_join(
-  df1_800N, SF_800N %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df3_800N &lt;- left_join(
-  df2_800N, PPT_800N, 
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df4_800N &lt;- left_join(
-  df3_800N, RA_800N %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df5_800N &lt;- left_join(
-  df4_800N, Cyc_800N,
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df6_800N &lt;- df5_800N %&gt;% 
-  mutate(
-    TotalTime = as.numeric(TotalTime),
-    TotalGreenTime = as.numeric(TotalGreenTime),
-    TotalYellowTime = as.numeric(TotalYellowTime),
-    TotalRedTime = as.numeric(TotalRedTime),
-    PercentGreen = as.numeric(PercentGreen)
-  ) %&gt;%
-  mutate(
-    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
-  )  %&gt;%
-  mutate(
-    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
-    PercentAOR = ArrivalsOnRed / TotalVolume,
-    SFPerCycle = SplitFailures / TotalCycles,
-    RAPerCycle = TotalRedLightViolations / TotalCycles,
-    PercentForceOffs = ForceOffs / TotalCycles
-  )
-
-df800N &lt;- df6_800N %&gt;%
-  write_rds(&quot;data/df800N.rds&quot;)</code></pre>
-</div>
-<div id="state-street" class="section level3">
-<h3>State Street</h3>
-<pre class="r"><code>df1_StateSt &lt;- left_join(
-  BaseTable_StateSt, PCD_StateSt %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df2_StateSt &lt;- left_join(
-  df1_StateSt, SF_StateSt %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df3_StateSt &lt;- left_join(
-  df2_StateSt, PPT_StateSt, 
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df4_StateSt &lt;- left_join(
-  df3_StateSt, RA_StateSt %&gt;% select(-IsProtectedPhase),
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df5_StateSt &lt;- left_join(
-  df4_StateSt, Cyc_StateSt,
-  by = c(&quot;BinStartTime&quot;, &quot;SignalId&quot;, &quot;ApproachId&quot;))
-
-df6_StateSt &lt;- df5_StateSt %&gt;% 
-  mutate(
-    TotalTime = as.numeric(TotalTime),
-    TotalGreenTime = as.numeric(TotalGreenTime),
-    TotalYellowTime = as.numeric(TotalYellowTime),
-    TotalRedTime = as.numeric(TotalRedTime),
-    PercentGreen = as.numeric(PercentGreen)
-  ) %&gt;%
-  mutate(
-    AMPeak = hour(BinStartTime) &gt;= 7 &amp; hour(BinStartTime) &lt;= 8
-  )  %&gt;%
-  mutate(
-    PercentAOG = (ArrivalsOnGreen + ArrivalsOnYellow) / TotalVolume,
-    PercentAOR = ArrivalsOnRed / TotalVolume,
-    SFPerCycle = SplitFailures / TotalCycles,
-    RAPerCycle = TotalRedLightViolations / TotalCycles,
-    PercentForceOffs = ForceOffs / TotalCycles
-  )
-
-dfStateSt &lt;- df6_StateSt %&gt;%
-  write_rds(&quot;data/dfStateSt.rds&quot;)</code></pre>
-</div>
-<div id="combine-all-dataset" class="section level3">
-<h3>Combine all DataSet</h3>
-<pre class="r"><code>dfFtUnion &lt;- read_rds(&quot;data/dfFtUnion.rds&quot;) %&gt;% mutate(Corrdior = &quot;FtUnion&quot;)
-df800N &lt;- read_rds(&quot;data/df800N.rds&quot;) %&gt;% mutate(Corrdior = &quot;800N&quot;)
-dfStateSt &lt;- read_rds(&quot;data/dfStateSt.rds&quot;) %&gt;% mutate(Corrdior = &quot;StateSt&quot;)
-
-dfCorridors_NA &lt;- rbind(dfFtUnion, df800N, dfStateSt) %&gt;%
-  write_rds(&quot;data/dfCorridors_NA.rds&quot;)</code></pre>
+dfCorridors &lt;- df6 %&gt;%
+  write_rds(&quot;data/df.rds&quot;)</code></pre>
 </div>
 </div>
-<div id="methodology" class="section level2">
-<h2>Methodology</h2>
-<div id="k-mean-cluster-analysis" class="section level3">
-<h3>K-mean Cluster Analysis</h3>
+<div id="methodology" class="section level3">
+<h3>Methodology</h3>
+<div id="k-mean-cluster-analysis" class="section level4">
+<h4>K-mean Cluster Analysis</h4>
 <ul>
 <li>Cluster analysis can help us group and weight all the variables for threshold values development.</li>
 <li>Clustering is a broad set of techniques for finding subgroups of observations within a data set.</li>
@@ -465,9 +393,10 @@ dfCorridors_NA &lt;- rbind(dfFtUnion, df800N, dfStateSt) %&gt;%
 <li>It is an unsupervised method, which implies that it seeks to find relationships between the n observations without being trained by a response variable.</li>
 <li>Clustering allows us to identify which observations are alike, and potentially categorize them therein.</li>
 </ul>
+<p>Figure 3 shows the example of cluster analysis plot</p>
 <div class="figure">
-<img src="img/Picture3.png" alt="Example of Cluster Analysis" />
-<p class="caption">Example of Cluster Analysis</p>
+<img src="img/Picture3.png" alt="FIGURE 3. EXAMPLE OF CLUSTER ANALYSIS PLOT." />
+<p class="caption"><strong>FIGURE 3. EXAMPLE OF CLUSTER ANALYSIS PLOT.</strong></p>
 </div>
 </div>
 </div>

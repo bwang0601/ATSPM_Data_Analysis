@@ -1,7 +1,7 @@
 ---
 title: "Aggregation Dataset"
 author: "Bruce Wang"
-date: "12/04/2019"
+date: "12/17/2019"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -19,6 +19,10 @@ library(ggplot2)
 ### Data Collection
 
 #### Sample Network Selected
+The sample study networks were selected based on the corridor location, available detection, and data integrity. The research team analyzed ten intersections on Fort Union Boulevard corridor in Midvale Utah; seven intersections on the State Street corridor in Provo, Utah; and five intersections on 800 North corridors in Provo, Utah. The table 1,2, and 3 show the location of all three corridors.
+
+**TABLE 1. Analysis Intersections on Fort Union Boulevard**
+
 |Signal ID|Cross-Street Name|Signal ID|Cross-Street Name|
 |:--------|:----------------|:--------|:----------------|
 |4029     |700 East         |4090     |2000 East        |
@@ -27,12 +31,32 @@ library(ggplot2)
 |4024     |1300 East        |4705     |2700 East        |
 |4388     |1435 East        |4706     |3000 East        |
 
+**TABLE 2. Analysis Intersections on State Street**
+
+|Signal ID|Cross-Street Name|Signal ID|Cross-Street Name|
+|:--------|:----------------|:--------|:----------------|
+|6303     |800 North        |6308     |400 North        |
+|6311     |Center Street    |6313     |400 South        |
+|6314     |800 South        |6323     |1200 South       |
+|6393     |1600 North       |         |                 |
+
+**TABLE 1. Analysis Intersections on 800 North**
+
+|Signal ID|Cross-Street Name|Signal ID|Cross-Street Name|
+|:--------|:----------------|:--------|:----------------|
+|6303     |State Street     |6304     |Main Street      |
+|6305     |400 East         |6306     |800 East         |
+|6399     |980 West         |         |                 |
+
+
 #### Study Time Period Selected
-First, we planned to look at the split fail performance measure. A large number of split failures typically occur during the PM peak due to a large number of cars on the road. As a result, we decided to look at the AM peak time period. If many split failures occur during this time period, it is more likely that the signal is not performing well. We also chose to look at an afternoon time period as a “control” time period. The chosen time periods were from 7 AM to 9 AM and 12 PM to 2 PM on Tuesdays and Wednesdays in March, July, and October in 2018. We chose these dates in order to determine if signal performance has changed over time. By looking at Tuesdays and Wednesdays, two days that are very similar in regard to traffic, we will be able to identify if there are changes over time to performance measures as we look at the change over a few months. Figure 2 shows the selected days for the chosen signals on Fort Union Boulevard. 
+A high number of split failures typically occur during the PM peak due to the relatively high volume of traffic on the roadway. To avoid data with a high number of split fails, the research team decided to look at the AM peak period. If many split failures occur diring this period, it is more likely that the signal is not performing well. WE also chose to look at an afternoon period as a "contral" period. The chosen periods were the AM Peak ()7:00-09:00) and Mid-Day (12:00-14:00) on Tuesdays and Wednesdays in March, July, and October in 2018. The days chose can determine if signal performance has changed over time. By looking at Tuesdays and Wednesdays, two days that are very similar regarding traffic, and it will be able to identify if there are changes to performance over time. Figure 2 shows the selected days for the Study.
 
-  ![Example data plot](img/Picture2.png)
+  ![**FIGURE 2. SELECTED DAYS FOR THE SAMPLE STUDY.**](img/Picture2.png)
 
-### Creating an Analysis Dataset
+
+
+### Creating an Analysis Dataset {.tabset}
 This script is to create the group dataset of signals on FtUnion corridor, 800 N, and State Street
 
 There are total 10 signals and 20 approaches included on the FtUnion corrdior
@@ -40,108 +64,97 @@ There are total 10 signals and 20 approaches included on the FtUnion corrdior
 There are total 5 signals and 10 approaches included on the 800N corrdior
 
 There are total 7 signals and 13 approaches (SignalId = 6323 hase only SBT) included on the State Street corrdior
-```{r Signal Performance Measures Dataset}
+
+#### Red Light Actuation
+The Red Ligh Actuation metric plots vehicle arrivals during the red portions of an intersection's movements where the speed of the vehicle is interpreted to be too fast to stop before entering the intersection. It provides users with a visual indication of occurrences, violationsm and several related statistics. Also, it will identify  engineering countermeasures to address red light running.
+```{r Red Light Actuation Dataset}
 # Safety aggregation table: Red Light Actuation
-RA_FtUnion <-read_xls("data/FtUnion/FtUnion_RedActuation.xls") %>%
+RA_flies <- list(FtUnion = "data/FtUnion/FtUnion_RedActuation.xls",
+                 N800 = "data/800N/800N_RedActuation.xls",
+                 StateSt = "data/StateSt/StateSt_RedActuation.xls")
+
+RA <- lapply(RA_flies, read_xls) %>%
+  bind_rows(.id = "Corridor") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
-  )
+  ) %>%
+  write_rds("RA.rds")
+```
 
-RA_800N <-read_xls("data/800N/800N_RedActuation.xls") %>%
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
-RA_StateSt <-read_xls("data/StateSt/StateSt_RedActuation.xls") %>%
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
+#### Purdue Coordination Diagram
+The Purdue Coordination Diagram is a tool to analyze performance measures that plots vehicle arrivals against the current movement(green, yellow, red) and traffic flow in vehicles per hour using the percentage of vehicles that arrive on green and the platoon ratios. This metric allows the analyst to optimize the offsets, identify over splits or under-saturated splits, and visualize the impacts of queuing and different phase actuations. 
+```{r Purdue Coordination Diagram Dataset}
 # Purdue Coordination Diagram aggregation table: ArrivalOnGreen, ArrivalOnRed, and Platoon Ratio
-PCD_FtUnion <-read_xls("data/FtUnion/FtUnion_PCD.xls") %>% 
+PCD_flies <- list(FtUnion = "data/FtUnion/FtUnion_PCD.xls",
+                 N800 = "data/800N/800N_PCD.xls",
+                 StateSt = "data/StateSt/StateSt_PCD.xls")
+
+PCD <- lapply(PCD_flies, read_xls) %>%
+  bind_rows(.id = "Corridor") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId),
     TotalVolume = as.numeric(TotalVolume),
     PlatoonRatio = as.numeric(PlatoonRatio)
-  )
+  ) %>%
+  write_rds("PCD.rds")
+```
 
-PCD_800N <-read_xls("data/800N/800N_PCD.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId),
-    TotalVolume = as.numeric(TotalVolume),
-    PlatoonRatio = as.numeric(PlatoonRatio)
-  )
-
-PCD_StateSt <-read_xls("data/StateSt/StateSt_PCD.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId),
-    TotalVolume = as.numeric(TotalVolume),
-    PlatoonRatio = as.numeric(PlatoonRatio)
-  )
-
+#### Split Failure
+The Purdue Split Failure calculates the percent of time that stop bar detectors are occupied during the green phase and then during the first five seconds of red. It measures how often a vehicle does not make it through an intersection on the first green light they are given.
+```{r Split Failure Dataset}
 # Split Failure aggregation table: Split Failures
-SF_FtUnion <-read_xls("data/FtUnion/FtUnion_SplitFail.xls") %>% 
+SF_flies <- list(FtUnion = "data/FtUnion/FtUnion_SplitFail.xls",
+                 N800 = "data/800N/800N_SplitFail.xls",
+                 StateSt = "data/StateSt/StateSt_SplitFail.xls")
+
+SF <- lapply(SF_flies, read_xls) %>%
+  bind_rows(.id = "Corridor") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
-  )  
+  ) %>%
+  write_rds("SF.rds")
+```
 
-SF_800N <-read_xls("data/800N/800N_SplitFail.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )  
-
-SF_StateSt <-read_xls("data/StateSt/StateSt_SplitFail.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )  
-
+#### Purdue Phase Termination
+The Purdue Phase Termination is a tool for evaluating performance measures that plots the controller's phases and the reason the phase terminated. It does not require detection. The phase termination due to force off, gap out, or max out and identifies where split time may need to be added or subtracted from a phase
+```{r Purdue Phase Termination Dataset}
 # Purdue Phase Termination Diagram aggregation table: Max out, Gap out, and Force Off
-PPT_FtUnion <-read_xls("data/FtUnion/FtUnion_PPT.xls") %>% 
+PPT_flies <- list(FtUnion = "data/FtUnion/FtUnion_PPT.xls",
+                 N800 = "data/800N/800N_PPT.xls",
+                 StateSt = "data/StateSt/StateSt_PPT.xls")
+
+PPT <- lapply(PPT_flies, read_xls) %>%
+  bind_rows(.id = "Corridor") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
-  )
+  ) %>%
+  write_rds("PPT.rds")
+```
 
-PPT_800N <-read_xls("data/800N/800N_PPT.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
-PPT_StateSt <-read_xls("data/StateSt/StateSt_PPT.xls") %>% 
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
+#### Number of Cycles
+The Number of Cycles table is to indicate the number of cycles for each intersections in 15-min bins. It will help to calculate the percentage of gap out, force off,and split failures in 15-min bins.
+```{r Cycles Number Dataset}
 #  Cycles Number: Number of Cycles
-Cyc_FtUnion <-read_xls("data/FtUnion/FtUnion_Cycles.xls") %>%
+Cyc_flies <- list(FtUnion = "data/FtUnion/FtUnion_Cycles.xls",
+                 N800 = "data/800N/800N_Cycles.xls",
+                 StateSt = "data/StateSt/StateSt_Cycles.xls")
+
+Cyc <- lapply(Cyc_flies, read_xls) %>%
+  bind_rows(.id = "Corridor") %>%
   mutate(
     BinStartTime = as_datetime(BinStartTime),
     SignalId = as.numeric(SignalId)
-  )
+  ) %>%
+  write_rds("Cyc.rds")
+```
 
-Cyc_800N <-read_xls("data/800N/800N_Cycles.xls") %>%
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
-Cyc_StateSt <-read_xls("data/StateSt/StateSt_Cycles.xls") %>%
-  mutate(
-    BinStartTime = as_datetime(BinStartTime),
-    SignalId = as.numeric(SignalId)
-  )
-
+#### BaseTable
+The Base Table includes BinStartTime, SignalID, and ApproachID. It will help to aggreate all other tables into one table. 
+```{r BaseTable DataSet}
 # BaseTable for Corridors: BinStartTime, SignalID, and ApproachID
 BaseTable_FtUnion <-read_xls("data/FtUnion/FtUnion_BaseTable.xls") %>%
   mutate(
@@ -163,4 +176,7 @@ BaseTable_StateSt <-read_xls("data/StateSt/StateSt_BaseTable.xls") %>%
     SignalId = as.numeric(SignalId),
     ApproachId = as.numeric(ApproachId),
   )
+
+BaseTable <- rbind(BaseTable_800N, BaseTable_FtUnion, BaseTable_StateSt) %>%
+  write_rds("BaseTable.rds")
 ```
